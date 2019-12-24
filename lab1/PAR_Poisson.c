@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include "mpi.h"
+
 
 #define DEBUG 0
 
@@ -30,6 +32,7 @@ int timer_on = 0;		/* is timer running? */
 double **phi;			/* grid */
 int **source;			/* TRUE if subgrid element is a source */
 int dim[2];			/* grid dimensions */
+int rank;
 
 void Setup_Grid();
 double Do_Step(int parity);
@@ -195,7 +198,7 @@ void Solve()
     count++;
   }
 
-  printf("Number of iterations : %i\n", count);
+  printf("(%i) Number of iterations : %i\n", rank, count);
 }
 
 void Write_Grid()
@@ -227,6 +230,9 @@ void Clean_Up()
 
 int main(int argc, char **argv)
 {
+  MPI_Init(&argc, &argv);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
   start_timer();
 
   Setup_Grid();
@@ -238,6 +244,8 @@ int main(int argc, char **argv)
   print_timer();
 
   Clean_Up();
+  MPI_Finalize();
+
 
   return 0;
 }
