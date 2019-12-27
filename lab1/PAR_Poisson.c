@@ -32,7 +32,7 @@ int timer_on = 0;		/* is timer running? */
 double **phi;			/* grid */
 int **source;			/* TRUE if subgrid element is a source */
 int dim[2];			/* grid dimensions */
-int rank;
+int proc_rank;
 double wtime;
 
 void Setup_Grid();
@@ -83,11 +83,11 @@ void print_timer()
   if (timer_on)
   {
     stop_timer();
-    printf("(%i) Elapsed Wtime: %14.6f s (%5.1f%% CPU)\n", rank, wtime, 100 * ticks * (1.0 / CLOCKS_PER_SEC) / wtime);
+    printf("(%i) Elapsed Wtime: %14.6f s (%5.1f%% CPU)\n", proc_rank, wtime, 100 * ticks * (1.0 / CLOCKS_PER_SEC) / wtime);
     resume_timer();
   }
   else
-    printf("(%i) Elapsed Wtime: %14.6f s (%5.1f%% CPU)\n", rank, wtime, 100 * ticks * (1.0 / CLOCKS_PER_SEC) / wtime);
+    printf("(%i) Elapsed Wtime: %14.6f s (%5.1f%% CPU)\n", proc_rank, wtime, 100 * ticks * (1.0 / CLOCKS_PER_SEC) / wtime);
 }
 
 void Debug(char *mesg, int terminate)
@@ -106,7 +106,7 @@ void Setup_Grid()
 
   Debug("Setup_Subgrid", 0);
 
-  if(rank == 0) {
+  if(proc_rank == 0) {
     f = fopen("input.dat", "r");
     if (f == NULL)
       Debug("Error opening input.dat", 1);
@@ -150,7 +150,7 @@ void Setup_Grid()
 
   /* put sources in field */
   do {
-    if (rank == 0)
+    if (proc_rank == 0)
       s = fscanf(f, "source: %lf %lf %lf\n", &source_x, &source_y, &source_val);
 
     MPI_Bcast(&s, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -169,7 +169,7 @@ void Setup_Grid()
     }
   } while (s==3);
 
-  if (rank == 0) fclose(f);
+  if (proc_rank == 0) fclose(f);
 }
 
 double Do_Step(int parity)
@@ -216,7 +216,7 @@ void Solve()
     count++;
   }
 
-  printf("(%i) Number of iterations : %i\n", rank, count);
+  printf("(%i) Number of iterations : %i\n", proc_rank, count);
 }
 
 void Write_Grid()
@@ -225,7 +225,7 @@ void Write_Grid()
   FILE *f;
 
   char filename[100];
-  sprintf(filename, "output_%i.dat", rank);
+  sprintf(filename, "output_%i.dat", proc_rank);
 
   if ((f = fopen(filename, "w")) == NULL)
     Debug("Write_Grid : fopen failed", 1);
@@ -252,7 +252,7 @@ void Clean_Up()
 int main(int argc, char **argv)
 {
   MPI_Init(&argc, &argv);
-  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
 
   start_timer();
 
