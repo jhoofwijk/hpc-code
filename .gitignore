@@ -1,4 +1,5 @@
 *.pdf
 *.out
 login-das4.txt
-output.dat
+output*.dat
+.vscode
