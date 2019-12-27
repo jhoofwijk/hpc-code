@@ -18,6 +18,9 @@ run: 11
 14: a.out
 	mpirun -c 4 a.out 1 4
 
+41: a.out
+	mpirun -c 4 a.out 4 1
+
 22: a.out
 	mpirun -c 4 a.out 2 2
 

@@ -47,6 +47,8 @@ MPI_Status status;
 
 MPI_Datatype border_type[2];
 
+const double OMEGA = 1.93;
+
 
 void Setup_Grid();
 
@@ -278,7 +280,7 @@ double Do_Step(int parity)
       if ((x + y + offset[X_DIR] + offset[Y_DIR]) % 2 == parity && source[x][y] != 1)
       {
         old_phi = phi[x][y];
-        phi[x][y] = (phi[x + 1][y] + phi[x - 1][y] + phi[x][y + 1] + phi[x][y - 1]) * 0.25;
+        phi[x][y] = old_phi * (1 - OMEGA) + OMEGA * (phi[x + 1][y] + phi[x - 1][y] + phi[x][y + 1] + phi[x][y - 1]) * 0.25;
         if (max_err < fabs(old_phi - phi[x][y]))
           max_err = fabs(old_phi - phi[x][y]);
       }
