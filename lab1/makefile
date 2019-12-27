@@ -1,7 +1,7 @@
 
 all: a.out run
 
-a.out:
+a.out: PAR_Poisson.c
 	mpicc PAR_Poisson.c
 
 run: 11

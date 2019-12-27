@@ -43,7 +43,9 @@ int proc_top, proc_right, proc_bottom, proc_left; // ranks of neighbouring proce
 int P; // total number of processes
 int P_grid[2]; // processgrid dimensions
 MPI_Comm grid_comm; //grid communicator
-MPI_Status status; 
+MPI_Status status;
+
+MPI_Datatype border_type[2];
 
 
 void Setup_Grid();
@@ -150,6 +152,21 @@ void Setup_Proc_Grid(int argc, char **argv)
     printf("(%i) top %i, right %i, bottom %i, left %i\n",
         proc_rank, proc_top, proc_right, proc_bottom, proc_left);
 }
+
+
+void Setup_MPI_Datatypes()
+{
+  Debug("Setup_MPI_Datatypes", 0);
+  
+  /* Datatype for vertical data exchange (Y_DIR) */
+  MPI_Type_vector(dim[X_DIR] - 2, 1, dim[Y_DIR], MPI_DOUBLE, &border_type[Y_DIR]);
+  MPI_Type_commit(&border_type[Y_DIR]);
+
+  /* Datatype for horizontal data exchange (X_DIR) */
+  MPI_Type_vector(dim[Y_DIR] - 2, 1,          1, MPI_DOUBLE, &border_type[X_DIR]);
+  MPI_Type_commit(&border_type[X_DIR]);
+}
+
 
 void Setup_Grid()
 {
@@ -260,14 +277,41 @@ double Do_Step(int parity)
     for (y = 1; y < dim[Y_DIR] - 1; y++)
       if ((x + y) % 2 == parity && source[x][y] != 1)
       {
-	old_phi = phi[x][y];
-	phi[x][y] = (phi[x + 1][y] + phi[x - 1][y] +
-		     phi[x][y + 1] + phi[x][y - 1]) * 0.25;
-	if (max_err < fabs(old_phi - phi[x][y]))
-	  max_err = fabs(old_phi - phi[x][y]);
+        old_phi = phi[x][y];
+        phi[x][y] = (phi[x + 1][y] + phi[x - 1][y] +
+              phi[x][y + 1] + phi[x][y - 1]) * 0.25;
+        if (max_err < fabs(old_phi - phi[x][y]))
+          max_err = fabs(old_phi - phi[x][y]);
       }
 
   return max_err;
+}
+
+void Exchange_Borders() {
+  Debug("Exchange_Borders", 0);
+
+  // to top
+  MPI_Sendrecv(&phi[1][       1      ], 1, border_type[Y_DIR], proc_top   , 0,
+               &phi[1][dim[Y_DIR] - 1], 1, border_type[Y_DIR], proc_bottom, 0,
+               grid_comm, &status);
+
+  // to bottom
+  MPI_Sendrecv(&phi[1][dim[Y_DIR] - 2], 1, border_type[Y_DIR], proc_bottom, 0,
+               &phi[1][       0      ], 1, border_type[Y_DIR], proc_top   , 0,
+               grid_comm, &status);
+
+  // TODO
+  // to left
+  MPI_Sendrecv(&phi[       1      ][1], 1, border_type[X_DIR], proc_left , 0,
+               &phi[dim[X_DIR] - 1][1], 1, border_type[X_DIR], proc_right, 0,
+               grid_comm, &status);
+
+  // to right
+  MPI_Sendrecv(&phi[dim[X_DIR] - 2][1], 1, border_type[X_DIR], proc_right, 0,
+               &phi[       0      ][1], 1, border_type[X_DIR], proc_left , 0,
+               grid_comm, &status);
+
+  
 }
 
 void Solve()
@@ -285,9 +329,11 @@ void Solve()
   {
     Debug("Do_Step 0", 0);
     delta1 = Do_Step(0);
+    Exchange_Borders();
 
     Debug("Do_Step 1", 0);
     delta2 = Do_Step(1);
+    Exchange_Borders();
 
     delta = max(delta1, delta2);
     count++;
@@ -335,6 +381,7 @@ int main(int argc, char **argv)
   start_timer();
 
   Setup_Grid();
+  Setup_MPI_Datatypes();
 
   Solve();
 
