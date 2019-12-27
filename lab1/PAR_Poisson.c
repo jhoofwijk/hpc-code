@@ -32,10 +32,21 @@ int timer_on = 0;		/* is timer running? */
 double **phi;			/* grid */
 int **source;			/* TRUE if subgrid element is a source */
 int dim[2];			/* grid dimensions */
-int proc_rank;
+
 double wtime;
 
+int proc_rank;
+int proc_coord[2];
+int proc_top, proc_right, proc_bottom, proc_left; // ranks of neighbouring processes
+
+int P; // total number of processes
+int P_grid[2]; // processgrid dimensions
+MPI_Comm grid_comm; //grid communicator
+MPI_Status status; 
+
+
 void Setup_Grid();
+
 double Do_Step(int parity);
 void Solve();
 void Write_Grid();
@@ -51,7 +62,7 @@ void start_timer()
 {
   if (!timer_on)
   {
-    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Barrier(grid_comm);
     ticks = clock();
     wtime = MPI_Wtime();
     timer_on = 1;
@@ -98,6 +109,47 @@ void Debug(char *mesg, int terminate)
     exit(1);
 }
 
+void Setup_Proc_Grid(int argc, char **argv)
+{
+  int wrap_around[2];
+  int reorder;
+
+  Debug("My_MPI_Init", 0);  /* Retrieve the number of processes */
+  MPI_Comm_size(MPI_COMM_WORLD, &P);  /* find out how many processes there are  */
+
+  /* Calculate the number of processes per column and per row for the grid */
+  if (argc > 2)
+  {
+    P_grid[X_DIR] = atoi(argv[1]);
+    P_grid[Y_DIR] = atoi(argv[2]);
+    if (P_grid[X_DIR] * P_grid[Y_DIR] != P)
+      Debug("ERROR : Proces grid dimensions do not match with P ", 1);
+  }
+  else
+    Debug("ERROR : Wrong parameter input", 1);
+  
+  /* Create process topology (2D grid) */
+  wrap_around[X_DIR] = 0;
+  wrap_around[Y_DIR] = 0; /* do not connect first and last process */
+  reorder = 1;            /* reorder process ranks */
+
+  MPI_Cart_create(MPI_COMM_WORLD, 2, P_grid, wrap_around, reorder, &grid_comm); /* Creates a new communicator: grid_comm */
+
+  /* Retrieve new rank and cartesian coordinates of this process */
+  MPI_Comm_rank(grid_comm, &proc_rank);  /* Rank of process in new communicator */
+  MPI_Cart_coords(grid_comm, proc_rank, 2, proc_coord); /* Coordinates of process in new communicator */
+
+  printf("(%i) (x,y)=(%i,%i)\n", proc_rank, proc_coord[X_DIR], proc_coord[Y_DIR]);
+  
+  /* calculate ranks of neighboring processes */
+  MPI_Cart_shift(grid_comm, Y_DIR, 1, &proc_top, &proc_bottom); /* rank of processes proc_top and proc_bottom */
+  MPI_Cart_shift(grid_comm, X_DIR, 1, &proc_left, &proc_right); /* rank of processes proc_left and proc_right */
+
+  if (DEBUG)
+    printf("(%i) top %i, right %i, bottom %i, left %i\n",
+        proc_rank, proc_top, proc_right, proc_bottom, proc_left);
+}
+
 void Setup_Grid()
 {
   int x, y, s;
@@ -117,9 +169,9 @@ void Setup_Grid()
     fscanf(f, "max iterations: %i\n", &max_iter);
   }
 
-  MPI_Bcast(&gridsize      , 2, MPI_INT   , 0, MPI_COMM_WORLD); 
-  MPI_Bcast(&precision_goal, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-  MPI_Bcast(&max_iter      , 1, MPI_INT   , 0, MPI_COMM_WORLD);
+  MPI_Bcast(&gridsize      , 2, MPI_INT   , 0, grid_comm); 
+  MPI_Bcast(&precision_goal, 1, MPI_DOUBLE, 0, grid_comm);
+  MPI_Bcast(&max_iter      , 1, MPI_INT   , 0, grid_comm);
 
   /* Calculate dimensions of local subgrid */
   dim[X_DIR] = gridsize[X_DIR] + 2;
@@ -153,12 +205,12 @@ void Setup_Grid()
     if (proc_rank == 0)
       s = fscanf(f, "source: %lf %lf %lf\n", &source_x, &source_y, &source_val);
 
-    MPI_Bcast(&s, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&s, 1, MPI_INT, 0, grid_comm);
 
     if (s == 3) {
-      MPI_Bcast(&source_x  , 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-      MPI_Bcast(&source_y  , 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-      MPI_Bcast(&source_val, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+      MPI_Bcast(&source_x  , 1, MPI_DOUBLE, 0, grid_comm);
+      MPI_Bcast(&source_y  , 1, MPI_DOUBLE, 0, grid_comm);
+      MPI_Bcast(&source_val, 1, MPI_DOUBLE, 0, grid_comm);
 
       x = source_x * gridsize[X_DIR];
       y = source_y * gridsize[Y_DIR];
@@ -252,7 +304,8 @@ void Clean_Up()
 int main(int argc, char **argv)
 {
   MPI_Init(&argc, &argv);
-  MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
+  // MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
+  Setup_Proc_Grid(argc, argv);
 
   start_timer();
 
