@@ -47,7 +47,7 @@ MPI_Status status;
 
 MPI_Datatype border_type[2];
 
-const double OMEGA = 1.93;
+const double OMEGA = 1.95;
 
 
 void Setup_Grid();
