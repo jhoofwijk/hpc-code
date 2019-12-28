@@ -33,4 +33,6 @@ run: 11
 33: a.out
 	mpirun -c 9 a.out 3 3
 
-
+clean:
+	rm output*.dat
+	rm a.out
