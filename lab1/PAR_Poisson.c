@@ -275,15 +275,18 @@ double Do_Step(int parity)
   double max_err = 0.0;
 
   /* calculate interior of grid */
-  for (x = 1; x < dim[X_DIR] - 1; x++)
-    for (y = 1; y < dim[Y_DIR] - 1; y++)
-      if ((x + y + offset[X_DIR] + offset[Y_DIR]) % 2 == parity && source[x][y] != 1)
+  for (x = 1; x < dim[X_DIR] - 1; x++) {
+    const int local_parity_offset = (((x + 1 + offset[X_DIR] + offset[Y_DIR]) % 2 == parity)?0:1);
+
+    for (y = 1 + local_parity_offset; y < dim[Y_DIR] - 1; y += 2)
+      if (source[x][y] != 1)
       {
         old_phi = phi[x][y];
         phi[x][y] = old_phi * (1 - OMEGA) + OMEGA * (phi[x + 1][y] + phi[x - 1][y] + phi[x][y + 1] + phi[x][y - 1]) * 0.25;
         if (max_err < fabs(old_phi - phi[x][y]))
           max_err = fabs(old_phi - phi[x][y]);
       }
+  }
 
   return max_err;
 }
@@ -331,20 +334,21 @@ void Solve()
   {
     Debug("Do_Step 0", 0);
     delta1 = Do_Step(0);
-    // Exchange_Borders();
+    Exchange_Borders();
 
     Debug("Do_Step 1", 0);
     delta2 = Do_Step(1);
-    // Exchange_Borders();
+    Exchange_Borders();
 
     delta = max(delta1, delta2);
     
     count++;
 
-    if(count % 1) {
-      Exchange_Borders();
-      MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
-    }
+    MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
+    // if(count % 2 == 0) {
+    //   Exchange_Borders();
+    //   MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
+    // }
 
   }
 
