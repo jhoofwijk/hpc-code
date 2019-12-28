@@ -84,6 +84,10 @@ Jorn Hoofwijk (4396499)
 \end_layout
 
 \begin_layout Section
+Title to change numbering
+\end_layout
+
+\begin_layout Section
 Lab assignment 1
 \end_layout
 
@@ -1208,7 +1212,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="3">
+<lyxtabular version="3" rows="5" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -1291,7 +1295,7 @@ Time needed [s]
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2.19
 \end_layout
 
 \end_inset
@@ -1300,7 +1304,7 @@ Time needed [s]
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1936
 \end_layout
 
 \end_inset
@@ -1323,7 +1327,7 @@ Time needed [s]
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+4.96
 \end_layout
 
 \end_inset
@@ -1332,14 +1336,14 @@ Time needed [s]
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+4732
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1351,75 +1355,11 @@ Time needed [s]
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $4$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $8$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+5.71
 \end_layout
 
 \end_inset
@@ -1428,7 +1368,7 @@ Time needed [s]
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+5000 (max iters)
 \end_layout
 
 \end_inset
@@ -1459,7 +1399,70 @@ Sweeps per communication vs time
 
 \end_inset
 
+It appears that communicating every now and then is not a good approach
+ for this problem.
+ 
+\end_layout
 
+\begin_layout Subsection
+Faster Do_Step
+\end_layout
+
+\begin_layout Standard
+From 2.8 it followed that communicating every half iteration was the best
+ approach.
+ So we will still use that (which took 1.88s).
+ Now we can change the inner loop of Do_Step such that 
+\begin_inset Formula $y$
+\end_inset
+
+ is increased with 
+\begin_inset Formula $2$
+\end_inset
+
+ every step, so we do not need the inner loop anymore.
+ We now only need 1.39s which is quite an improvement.
+\end_layout
+
+\begin_layout Subsection
+Measure Exchange_Borders
+\end_layout
+
+\begin_layout Standard
+See 2.11
+\end_layout
+
+\begin_layout Subsection
+Bandwidth and latency
+\end_layout
+
+\begin_layout Subsection
+Less communication
+\end_layout
+
+\begin_layout Itemize
+The address of the first point to exchange depends on the offset (both in
+ X and Y direction), and the parity of the previously updated points.
+\end_layout
+
+\begin_layout Itemize
+The number of points to exchange depends on the size of the subdomain but
+ also on the offset and the parity of the updated points (because the size
+ of the subdomain might be uneven, then you will have a different number
+ of red and black points) and of course it depends in what direction you
+ communicate.
+\end_layout
+
+\begin_layout Itemize
+The number of points between two grid points luckily still only depends
+ on the size of the subdomain (and the direction of communication)
+\end_layout
+
+\begin_layout Standard
+The bandwidth is high, and the communication can be sped up only marginally.
+ The cost however is difficult to maintain the code and thereby you run
+ the risk of a difficult to detect bug.
+ So it is not worth the effort.
 \end_layout
 
 \end_body
