@@ -3,3 +3,5 @@
 login-das4.txt
 output*.dat
 .vscode
+*.lyx#
+*.lyx~
