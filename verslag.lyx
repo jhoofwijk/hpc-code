@@ -758,7 +758,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.15
 \end_layout
 
 \end_inset
@@ -767,7 +767,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.000235
 \end_layout
 
 \end_inset
@@ -790,7 +790,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.01
 \end_layout
 
 \end_inset
@@ -799,7 +799,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00104
 \end_layout
 
 \end_inset
@@ -822,7 +822,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.05
 \end_layout
 
 \end_inset
@@ -831,7 +831,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.00375
 \end_layout
 
 \end_inset
@@ -854,7 +854,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1.6
 \end_layout
 
 \end_inset
@@ -863,7 +863,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0142
 \end_layout
 
 \end_inset
@@ -902,7 +902,26 @@ Fit for
 
 \end_inset
 
+We have to take into account that because we only used two samples (1000
+ and 2000) to make a fit, and these samples have high variance, the estimates
+ have high variance.
+ But we can clearly see the trend in 
+\begin_inset Formula $\beta$
+\end_inset
 
+.
+\end_layout
+
+\begin_layout Subsection
+Good layout
+\end_layout
+
+\begin_layout Standard
+Since the tests do not clearly give a best layout, I would assume that the
+ 4x4 layout is going to be the best.
+ The reasoning for this is that every subdomain is square, which has the
+ least circumference (as opposed to long rectangles) which means it will
+ probably spend less time communicating with the neighbors.
 \end_layout
 
 \end_body
