@@ -12,6 +12,9 @@ run: 11
 12: a.out
 	mpirun -c 2 a.out 1 2
 
+21: a.out
+	mpirun -c 2 a.out 2 1
+
 13: a.out
 	mpirun -c 3 a.out 1 3
 

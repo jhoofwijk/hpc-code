@@ -294,6 +294,7 @@ double Do_Step(int parity)
 void Exchange_Borders() {
   Debug("Exchange_Borders", 0);
 
+  resume_timer();
   // to top
   MPI_Sendrecv(&phi[1][       1      ], 1, border_type[Y_DIR], proc_top   , 0,
                &phi[1][dim[Y_DIR] - 1], 1, border_type[Y_DIR], proc_bottom, 0,
@@ -314,7 +315,7 @@ void Exchange_Borders() {
   MPI_Sendrecv(&phi[dim[X_DIR] - 2][1], 1, border_type[X_DIR], proc_right, 0,
                &phi[       0      ][1], 1, border_type[X_DIR], proc_left , 0,
                grid_comm, &status);
-
+  stop_timer();
   
 }
 
@@ -330,7 +331,7 @@ void Solve()
   /* give global_delta a higher value then precision_goal */
   global_delta = 2 * precision_goal;
 
-  while (global_delta > precision_goal && count < max_iter)
+  while (count < max_iter)
   {
     Debug("Do_Step 0", 0);
     delta1 = Do_Step(0);
@@ -392,6 +393,7 @@ int main(int argc, char **argv)
   Setup_Proc_Grid(argc, argv);
 
   start_timer();
+  stop_timer();
 
   Setup_Grid();
   Setup_MPI_Datatypes();
