@@ -331,16 +331,21 @@ void Solve()
   {
     Debug("Do_Step 0", 0);
     delta1 = Do_Step(0);
-    Exchange_Borders();
+    // Exchange_Borders();
 
     Debug("Do_Step 1", 0);
     delta2 = Do_Step(1);
-    Exchange_Borders();
+    // Exchange_Borders();
 
     delta = max(delta1, delta2);
-    MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
-
+    
     count++;
+
+    if(count % 1) {
+      Exchange_Borders();
+      MPI_Allreduce(&delta, &global_delta, 1, MPI_DOUBLE, MPI_MAX, grid_comm);
+    }
+
   }
 
   printf("(%i) Number of iterations : %i\n", proc_rank, count);
