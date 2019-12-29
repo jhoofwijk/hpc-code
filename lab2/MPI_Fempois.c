@@ -428,9 +428,6 @@ void Exchange_Borders(double *vect)
                  vect, 1, recv_type[i], proc_neighb[i], 0,
                  grid_comm, &status);
   }
-
-
-  // Please finsih this part to realize the purpose of data communication among neighboring processors. (Tip: the function "MPI_Sendrecv" needs to be used here.)
 }
 
 void Solve()
