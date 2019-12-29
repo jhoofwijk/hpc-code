@@ -1,21 +1,17 @@
 CC = mpicc
 
-FP_LIBS = -lm
-GD_LIBS = -lm
-
-FP_OBJS = MPI_Fempois.o
-GD_OBJS = GridDist.o
-
 all: MPI_Fempois GridDist
 
 clean:
 	rm -f *.o 
+	rm -f MPI_Fempois
+	rm -f GridDist
 
-MPI_Fempois: $(FP_OBJS)
-	mpicc -o $@ $(FP_OBJS) $(FP_LIBS)
+MPI_Fempois: MPI_Fempois.o
+	mpicc -o $@ $< -lm
 
-GridDist: $(GD_OBJS)
-	gcc -o $@ $(GD_OBJS) $(GD_LIBS)
+GridDist: GridDist.o
+	gcc -o $@ $< -lm
 
 MPI_Fempois.o:
 	mpicc -c MPI_Fempois.c
