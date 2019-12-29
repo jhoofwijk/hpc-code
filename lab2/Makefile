@@ -1,5 +1,5 @@
-GridX = 100
-GridY = 100
+GridX = 20
+GridY = 20
 
 X = 2
 Y = 2
@@ -22,11 +22,11 @@ MPI_Fempois: MPI_Fempois.o
 GridDist: GridDist.o
 	gcc -o $@ $< -lm
 
-MPI_Fempois.o:
-	mpicc -c MPI_Fempois.c
+MPI_Fempois.o: MPI_Fempois.c
+	mpicc -c $<
 
-GridDist.o:
-	gcc -c GridDist.c
+GridDist.o: GridDist.c
+	gcc -c $<
 
 .PHONY: inputs
 inputs: GridDist
