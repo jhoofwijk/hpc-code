@@ -8,4 +8,5 @@ output*.dat
 *.o
 MPI_Fempois
 GridDist
-
+mapping*.dat
+input*-*.dat
