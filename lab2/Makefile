@@ -1,13 +1,20 @@
-CC = mpicc
+GridX = 100
+GridY = 100
+
+X = 2
+Y = 2
+P = $$(( $(X) * $(Y) ))
 
 .PHONY: all
-all: MPI_Fempois GridDist
+all: run
 
 .PHONY: clean
 clean:
 	rm -f *.o 
 	rm -f MPI_Fempois
 	rm -f GridDist
+	rm input*-*.dat
+	rm output*.dat
 
 MPI_Fempois: MPI_Fempois.o
 	mpicc -o $@ $< -lm
@@ -23,8 +30,19 @@ GridDist.o:
 
 .PHONY: inputs
 inputs: GridDist
-	./GridDist 2 2 100 100
+	./GridDist $(X) $(Y) $(GridX) $(GridY)
+
+.PHONY: adaptive
+adaptive: GridDist MPI_Fempois 
+	rm -f output*.dat
+	./GridDist $(X) $(Y) $(GridX) $(GridY) adapt
+	mpirun -c $(P) MPI_Fempois
 
 .PHONY: run
 run: MPI_Fempois inputs
-	mpirun -c 4 MPI_Fempois
+	rm -f output*.dat
+	mpirun -c $(P) MPI_Fempois
+
+.PHONY: concat
+concat: run
+	cat output*-*.dat | sort > output.dat
