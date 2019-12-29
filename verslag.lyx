@@ -1429,19 +1429,12 @@ Measure Exchange_Borders
 \end_layout
 
 \begin_layout Standard
-See 2.11
-\end_layout
-
-\begin_layout Subsection
-Bandwidth and latency
-\end_layout
-
-\begin_layout Standard
 We now stop the timer immediately after starting it, then resume the timer
  at the top of Exchange_Borders and stop it again at the bottom of Exchange_Bord
 ers.
  This yields the following table:
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -1498,7 +1491,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-10x12
+10x10
 \end_layout
 
 \end_inset
@@ -1536,7 +1529,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-100x12
+100x10
 \end_layout
 
 \end_inset
@@ -1574,7 +1567,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-1000x12
+1000x10
 \end_layout
 
 \end_inset
@@ -1612,7 +1605,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-10 000x12
+10 000x10
 \end_layout
 
 \end_inset
@@ -1650,7 +1643,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-100 000x12
+100 000x10
 \end_layout
 
 \end_inset
@@ -1677,7 +1670,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.5
+2.3
 \end_layout
 
 \end_inset
@@ -1770,6 +1763,12 @@ Grid size
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:bandwidth"
+
+\end_inset
+
 Average time of Exchange_Borders of all processes vs problem size for 1000
  iterations
 \end_layout
@@ -1779,13 +1778,69 @@ Average time of Exchange_Borders of all processes vs problem size for 1000
 
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
 
+So as long as you do not have tiny subdomains, the time spend solving the
+ system is always more than the time spend communicating.
+ I didn't compute exact grid sizes as this exercise is optional.
+ But if you have a 2x2 domain with 4 cores each dealing with one point,
+ the time communicating is more than the time of computations.
+ As long as the domains are square and large, the time spend doing computations
+ grown with a factor 
+\begin_inset Formula $O(N^{2})$
+\end_inset
+
+ while the time communicating the boundary grows with a factor 
+\begin_inset Formula $O(N)$
+\end_inset
+
+.
+ So that the communication overhead becomes less significant as the grid
+ size grows.
 \end_layout
+
+\begin_layout Subsection
+Bandwidth and latency
+\end_layout
+
+\begin_layout Standard
+See Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:bandwidth"
+plural "false"
+caps "false"
+noprefix "false"
 
 \end_inset
 
+ again.
+ From this table we can conclude that the latency is about 
+\begin_inset Formula 
+\[
+\frac{0.004}{1000}=4\cdot10^{-6}\text{s}=1\mu\text{s}.
+\]
 
+\end_inset
+
+Furthermore the easiest computation can be derived from the 1x2 case with
+ a 100 000x10 grid.
+ Where every time 100 000 doubles are communicated, which is about 800KB.
+ This is communicated 1000 times in 2.3 seconds (neglecting the latency as
+ it is not significant for this measurement).
+ This yields:
+\begin_inset Formula 
+\[
+1000\cdot\frac{800\text{KB}}{2.3\text{s}}\approx350\text{MB/s}.
+\]
+
+\end_inset
+
+I have no idea if this is correct, but it is slower than RAM and faster
+ than a HDD so I guess it sounds more or less reasonable.
+ However, it does however seem weird that a SSD has more bandwidth than
+ inter-process communication, that is because they have some sort of highly
+ optimized hardware for it.
 \end_layout
 
 \begin_layout Subsection
@@ -1811,10 +1866,28 @@ The number of points between two grid points luckily still only depends
 \end_layout
 
 \begin_layout Standard
-The bandwidth is high, and the communication can be sped up only marginally.
- The cost however is difficult to maintain the code and thereby you run
- the risk of a difficult to detect bug.
+The bandwidth is high, and the communication can be sped up only marginally
+ (as long a you choose a good grid layout).
+ The cost however is difficult to maintain code and thereby you run the
+ risk of a hard to find bug.
  So it is not worth the effort.
+ 
+\end_layout
+
+\begin_layout Standard
+Side note: If you want to save on communication times, chose (more or less)
+ square subdomains.
+ Another quick-win to speed up the overall code is to turn on compiler optimizat
+ions (e.g.
+ compile with the 
+\begin_inset Quotes eld
+\end_inset
+
+-O2
+\begin_inset Quotes erd
+\end_inset
+
+ flag) which speeds up the solving with a factor 4.
 \end_layout
 
 \end_body
