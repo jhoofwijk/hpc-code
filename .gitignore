@@ -5,3 +5,7 @@ output*.dat
 .vscode
 *.lyx#
 *.lyx~
+*.o
+MPI_Fempois
+GridDist
+
