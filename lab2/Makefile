@@ -1,8 +1,8 @@
-GridX = 20
-GridY = 20
+GridX = 600
+GridY = 600
 
-X = 2
-Y = 2
+X = 10
+Y = 10
 P = $$(( $(X) * $(Y) ))
 
 .PHONY: all

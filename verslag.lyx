@@ -1895,7 +1895,7 @@ Implement Exchange_Borders
 \end_layout
 
 \begin_layout Standard
-Done, quite easy, singe for-loop
+Quite easily done using a single for-loop and a SendRecv inside this loop.
 \end_layout
 
 \begin_layout Subsection
@@ -1904,6 +1904,7 @@ Analyze time spent in different parts
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -1990,7 +1991,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-Grid size
+
 \end_layout
 
 \end_inset
@@ -1999,7 +2000,10 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-100
+\begin_inset Formula $100^{2}$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2008,7 +2012,10 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-200
+\begin_inset Formula $200^{2}$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2017,7 +2024,10 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-400
+\begin_inset Formula $400^{2}$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2026,7 +2036,10 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-100
+\begin_inset Formula $100^{2}$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2035,7 +2048,10 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-200
+\begin_inset Formula $200^{2}$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2044,7 +2060,10 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-400
+\begin_inset Formula $400^{2}$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2323,7 +2342,7 @@ Idle
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
+Time spent per task
 \end_layout
 
 \end_inset

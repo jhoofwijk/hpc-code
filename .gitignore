@@ -10,3 +10,4 @@ MPI_Fempois
 GridDist
 mapping*.dat
 input*-*.dat
+grid*.dat
