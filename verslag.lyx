@@ -2083,7 +2083,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.078 
 \end_layout
 
 \end_inset
@@ -2092,7 +2092,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.330
 \end_layout
 
 \end_inset
@@ -2101,7 +2101,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2.553
 \end_layout
 
 \end_inset
@@ -2110,7 +2110,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.078
 \end_layout
 
 \end_inset
@@ -2119,7 +2119,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.348
 \end_layout
 
 \end_inset
@@ -2128,7 +2128,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+2.581
 \end_layout
 
 \end_inset
@@ -2149,7 +2149,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.002
 \end_layout
 
 \end_inset
@@ -2158,7 +2158,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.003
 \end_layout
 
 \end_inset
@@ -2167,7 +2167,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.007 
 \end_layout
 
 \end_inset
@@ -2176,7 +2176,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.003
 \end_layout
 
 \end_inset
@@ -2185,7 +2185,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.005
 \end_layout
 
 \end_inset
@@ -2194,7 +2194,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.014
 \end_layout
 
 \end_inset
@@ -2215,7 +2215,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.006
 \end_layout
 
 \end_inset
@@ -2224,7 +2224,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.012
 \end_layout
 
 \end_inset
@@ -2233,7 +2233,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.044 
 \end_layout
 
 \end_inset
@@ -2242,7 +2242,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.006
 \end_layout
 
 \end_inset
@@ -2251,7 +2251,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.009
 \end_layout
 
 \end_inset
@@ -2260,7 +2260,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.037
 \end_layout
 
 \end_inset
@@ -2280,7 +2280,7 @@ Idle
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+-0.000
 \end_layout
 
 \end_inset
@@ -2289,7 +2289,7 @@ Idle
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.000
 \end_layout
 
 \end_inset
@@ -2298,7 +2298,7 @@ Idle
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.000
 \end_layout
 
 \end_inset
@@ -2307,7 +2307,7 @@ Idle
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+-0.000
 \end_layout
 
 \end_inset
@@ -2316,7 +2316,7 @@ Idle
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+-0.000
 \end_layout
 
 \end_inset
@@ -2325,7 +2325,7 @@ Idle
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.000
 \end_layout
 
 \end_inset
@@ -2402,6 +2402,12 @@ As we can see in the figure, every subdomain is connected to the left or
  This makes it so that two processes (1 and 4) have to communicate with
  all other processes, while the other two processes (2 and 3) only need
  to communicate with two neighbors.
+\end_layout
+
+\begin_layout Standard
+In a 3x3 layout, the center process has to communicate with 6 other processes,
+ two of the corners have to communicate with 2 processes and the other two
+ corners communicate with 3 processes.
 \end_layout
 
 \end_body

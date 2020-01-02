@@ -585,7 +585,14 @@ void print_task_times() {
   double computations = busy - global - neighbour;
   double idle = wtime - busy;
 
-  printf("comp, neigh, global, idle:\n%.3f\n%.3f\n%.3f\n%.3f\n", computations, neighbour, global, idle);
+  MPI_Allreduce(&computations, &computations, 1, MPI_DOUBLE, MPI_SUM, grid_comm);
+  MPI_Allreduce(&idle, &idle, 1, MPI_DOUBLE, MPI_SUM, grid_comm);
+  MPI_Allreduce(&neighbour, &neighbour, 1, MPI_DOUBLE, MPI_SUM, grid_comm);
+  MPI_Allreduce(&global, &global, 1, MPI_DOUBLE, MPI_SUM, grid_comm);
+
+  if(proc_rank == 0) {
+    printf("comp, neigh, global, idle:\n%.3f\n%.3f\n%.3f\n%.3f\n", computations / 4, neighbour / 4, global / 4, idle / 4);
+  }
   resume_timer();
 }
 
@@ -601,7 +608,7 @@ int main(int argc, char **argv)
 
   start_timer();
   Solve();
-  print_timer();
+  // print_timer();
 
   print_task_times();
 
