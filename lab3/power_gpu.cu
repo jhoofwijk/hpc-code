@@ -117,6 +117,7 @@ int main(int argc, char** argv)
     struct timespec t_start,t_end;
     double runtime;
     ParseArguments(argc, argv);
+    srand(12); // Random seed
 		
     int N = GlobalSize;
     printf("Matrix size %d X %d \n", N, N);
@@ -175,9 +176,8 @@ int main(int argc, char** argv)
 	  
     //Power method loops
     printf("*************************************\n");
-	float lamda=11;
+	float lamda = 0;
     float OldLamda =0;
-    float h_NormW = 0;
     
     Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
     cudaThreadSynchronize(); //Needed, kind of barrier to sychronize all threads
@@ -192,9 +192,10 @@ int main(int argc, char** argv)
         FindNormW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, N);
         cudaThreadSynchronize();
 
-        cudaMemcpy(&h_NormW, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
-        h_NormW = sqrt(h_NormW);        
-        cudaMemcpy(d_NormW, &h_NormW, sizeof(float), cudaMemcpyHostToDevice);
+        cudaMemcpy(h_NormW, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
+        h_NormW[0] = sqrt(h_NormW[0]);        
+        cudaMemcpy(d_NormW, h_NormW, sizeof(float), cudaMemcpyHostToDevice);
+        cudaThreadSynchronize();
 
         NormalizeW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, d_VecV, N);
         cudaThreadSynchronize();
@@ -207,7 +208,7 @@ int main(int argc, char** argv)
 
         cudaMemcpy(&lamda, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
         
-        printf("CPU lamda at %d: %f \n", i, lamda);
+        printf("GPU lamda at %d: %f \n", i, lamda);
 		// If residual is lass than epsilon break
 		if(abs(OldLamda - lamda) < EPS)
             break;
@@ -260,13 +261,10 @@ void InitOne(float* data, int n)
 
 void UploadArray(float* data, int n)
 {
-   int total = n*n;
-   int value=1;
+    int total = n*n;
     for (int i = 0; i < total; i++)
     {
-    	data[i] = (int) (rand() % (int)(101));//1;//value;
-	    value ++; if(value>n) value =1;
-      // data[i] = 1;
+        data[i] = (int) (rand() % (int)(101));
     }
 }
 
