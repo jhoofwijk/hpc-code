@@ -10,7 +10,6 @@
 #include <time.h>
 #include "cuda.h"
 
-
 const int BLOCK_SIZE =32;  // number of threads per block
 
 // Input Array Variables
@@ -250,7 +249,7 @@ void UploadArray(float* data, int n)
 }
 
 // Obtain program arguments
-void Arguments(int argc, char** argv)
+void ParseArguments(int argc, char** argv)
 {
     for (int i = 0; i < argc; ++i) 
     {
