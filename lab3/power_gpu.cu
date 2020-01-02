@@ -190,7 +190,7 @@ int main(int argc, char** argv)
 	{
         FindNormW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, N);
         cudaThreadSynchronize();
-        cudaMemcpy(&lamda, d_NormW, sizeof(double), cudaMemcpyDeviceToHost);
+        cudaMemcpy(&lamda, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
         printf("norm: %f\n", lamda);
 
         NormalizeW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, d_VecV, N);
@@ -202,7 +202,7 @@ int main(int argc, char** argv)
         ComputeLamda<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecV, d_VecW, d_NormW, N);
         cudaThreadSynchronize();
 
-        cudaMemcpy(&lamda, d_NormW, sizeof(double), cudaMemcpyDeviceToHost);
+        cudaMemcpy(&lamda, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
         
         printf("CPU lamda at %d: %f \n", i, lamda);
 		// If residual is lass than epsilon break
