@@ -164,7 +164,7 @@ int main(int argc, char** argv)
 
     // Set the kernel arguments
     int threadsPerBlock = BlockSize;   
-    int sharedMemSize = threadsPerBlock * threadsPerBlock * sizeof(float); // in per block, the memory is shared   
+    int sharedMemSize = threadsPerBlock * (threadsPerBlock + 1) * sizeof(float); // in per block, the memory is shared   
     int blocksPerGrid = (N + threadsPerBlock - 1) / threadsPerBlock;
 
     // Allocate matrix and vectors in device memory
@@ -197,7 +197,7 @@ int main(int argc, char** argv)
         cudaMemcpy(d_NormW, &zero, sizeof(float), cudaMemcpyHostToDevice);
         cudaThreadSynchronize();
 
-        FindNormW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, N);
+        FindNormW<<<blocksPerGrid, threadsPerBlock, threadsPerBlock * sizeof(float)>>>(d_VecW, d_NormW, N);
         cudaThreadSynchronize();
 
         cudaMemcpy(h_NormW, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
@@ -205,7 +205,7 @@ int main(int argc, char** argv)
         cudaMemcpy(d_NormW, h_NormW, sizeof(float), cudaMemcpyHostToDevice);
         cudaThreadSynchronize();
 
-        NormalizeW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, d_VecV, N);
+        NormalizeW<<<blocksPerGrid, threadsPerBlock, sizeof(float)>>>(d_VecW, d_NormW, d_VecV, N);
         cudaThreadSynchronize();
         
         // cudaMemcpy(h_VecV, d_VecV, sizeof(float) * 10, cudaMemcpyDeviceToHost);
@@ -222,7 +222,7 @@ int main(int argc, char** argv)
         cudaMemcpy(d_NormW, &zero, sizeof(float), cudaMemcpyHostToDevice);
         cudaThreadSynchronize();
 
-        ComputeLamda<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecV, d_VecW, d_NormW, N);
+        ComputeLamda<<<blocksPerGrid, threadsPerBlock, threadsPerBlock * sizeof(float)>>>(d_VecV, d_VecW, d_NormW, N);
         cudaThreadSynchronize();
 
         cudaMemcpy(&lamda, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
