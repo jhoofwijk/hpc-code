@@ -200,7 +200,8 @@ int main(int argc, char** argv)
         ComputeLamda<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecV, d_VecW, d_NormW, N);
         cudaThreadSynchronize();
 
-        cudaMemcpy(d_NormW, &lamda, sizeof(double), cudaMemcpyDeviceToHost);
+        cudaMemcpy(&lamda, d_NormW, sizeof(double), cudaMemcpyDeviceToHost);
+        cudaCheckErrors("cudamemcpy or cuda kernel fail");
         
         printf("CPU lamda at %d: %f \n", i, lamda);
 		// If residual is lass than epsilon break
@@ -229,8 +230,8 @@ void Cleanup(void)
         cudaFree(d_VecV);
     if (d_VecW)
         cudaFree(d_VecW);
-	  if (d_NormW)
-		    cudaFree(d_NormW);
+    if (d_NormW)
+        cudaFree(d_NormW);
 		
     // Free host memory
     if (h_MatA)
