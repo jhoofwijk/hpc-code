@@ -201,7 +201,6 @@ int main(int argc, char** argv)
         cudaThreadSynchronize();
 
         cudaMemcpy(&lamda, d_NormW, sizeof(double), cudaMemcpyDeviceToHost);
-        cudaCheckErrors("cudamemcpy or cuda kernel fail");
         
         printf("CPU lamda at %d: %f \n", i, lamda);
 		// If residual is lass than epsilon break
