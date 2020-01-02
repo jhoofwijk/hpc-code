@@ -122,7 +122,6 @@ int main(int argc, char** argv)
     struct timespec t_start,t_end;
     double runtime;
     ParseArguments(argc, argv);
-    srand(12); // Random seed
 		
     int N = GlobalSize;
     printf("Matrix size %d X %d \n", N, N);
@@ -302,6 +301,11 @@ void ParseArguments(int argc, char** argv)
         {
             max_iteration = atoi(argv[i+1]);
 		    i = i + 1;
+        }
+        if (strcmp(argv[i], "--seed") == 0 || strcmp(argv[i], "-seed") == 0)
+        {
+            int seed = atoi(argv[i+1]);
+            srand(seed);
         }
     }
 }
