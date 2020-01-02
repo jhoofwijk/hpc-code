@@ -202,9 +202,9 @@ int main(int argc, char** argv)
         
         printf("CPU lamda at %d: %f \n", i, lamda);
 		// If residual is lass than epsilon break
-		if(abs(oldLamda - lamda) < EPS)
+		if(abs(OldLamda - lamda) < EPS)
             break;
-        oldLamda = lamda;	    
+        OldLamda = lamda;	    
 	}
 	printf("*************************************\n");
     
