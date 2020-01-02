@@ -12,5 +12,5 @@ file='./power_gpu'
 
 nvcc -o $file $file.cu -Wno-deprecated-gpu-targets
 
-./$file
+./$file -size 5000
 
