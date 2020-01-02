@@ -173,7 +173,9 @@ int main(int argc, char** argv)
     cudaMemcpy(d_VecV, h_VecV, vec_size, cudaMemcpyHostToDevice);
 	// cutilCheckError(cutStopTimer(timer_mem));
 	  
-   //Power method loops
+    //Power method loops
+    printf("*************************************\n");
+	float lamda=0;
     float OldLamda =0;
     
     Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
@@ -182,16 +184,29 @@ int main(int argc, char** argv)
     // This part is the main code of the iteration process for the Power Method in GPU. 
     // Please finish this part based on the given code. Do not forget the command line 
     // cudaThreadSynchronize() after calling the function every time in CUDA to synchoronize the threads
-    ////////////////////////////////////////////
-    //   ///      //        //            //          //            //        //
-    //                                                                        //
-    //                                                                        //
-    //                                                                        //
-    //                                                                        //
-    //                                                                        //
-    //                                                                        //
-    //                                                                        //
-    //  ///   //    ///     //    //      //      //        //       //   //  //
+	
+	//power loop
+	for (int i=0;i<max_iteration;i++)
+	{
+        FindNormW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, N);
+        cudaThreadSynchronize();
+
+        NormalizeW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, d_VecV, N);
+        cudaThreadSynchronize();
+
+        Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
+        cudaThreadSynchronize();
+
+        ComputeLamda<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecV, d_VecW, &lambda, N);
+        cudaThreadSynchronize();
+        
+        printf("CPU lamda at %d: %f \n", i, lamda);
+		// If residual is lass than epsilon break
+		if(abs(oldLamda - lamda) < EPS)
+            break;
+        oldLamda = lamda;	    
+	}
+	printf("*************************************\n");
     
     
 
