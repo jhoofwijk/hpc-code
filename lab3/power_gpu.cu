@@ -100,8 +100,8 @@ void RunCPUPowerMethod()
         for(int i=0;i<10;i++) {
             printf("%.5f   ", h_VecV[i]);
         }
-        printf('\n');
-        
+        printf("\n");
+
 		CPU_AvProduct();
 		lamda= CPU_ComputeLamda();
 		printf("CPU lamda at %d: %f \n", i, lamda);
@@ -210,7 +210,7 @@ int main(int argc, char** argv)
         for(int i=0;i<10;i++) {
             printf("%.5f   ", h_VecV[i]);
         }
-        printf('\n');
+        printf("\n");
         
         cudaThreadSynchronize();
 
