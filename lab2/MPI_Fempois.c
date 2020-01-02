@@ -421,19 +421,21 @@ void Setup_MPI_Datatypes(FILE *f)
   free(indices);
 }
 
-double neighbour_time = 0;
-double global_time = 0;
+long long neighbour_time = 0;
+long long global_time = 0;
 void Exchange_Borders(double *vect)
 {
   MPI_Barrier(grid_comm);
 
-  double t_start = MPI_Wtime();
+
   for(int i=0;i<N_neighb;i++) {
+    long long t_start = clock();
     MPI_Sendrecv(vect, 1, send_type[i], proc_neighb[i], 0, 
                  vect, 1, recv_type[i], proc_neighb[i], 0,
                  grid_comm, &status);
+    neighbour_time += clock() - t_start;
   }
-  neighbour_time += MPI_Wtime() - t_start;
+
 }
 
 void Solve()
@@ -476,9 +478,9 @@ void Solve()
       if (!(vert[i].type & TYPE_GHOST))
         sub += r[i] * r[i];
 
-    double t_start_g = MPI_Wtime();
+    long long t_start_g = clock();
     MPI_Allreduce(&sub, &r1, 1, MPI_DOUBLE, MPI_SUM, grid_comm);
-    global_time += MPI_Wtime() - t_start_g;
+    global_time += clock() - t_start_g;
 
     if (count == 0)
     {
@@ -510,9 +512,9 @@ void Solve()
       if (!(vert[i].type & TYPE_GHOST))
         sub += p[i] * q[i];
 
-    t_start_g = MPI_Wtime();
+    t_start_g = clock();
     MPI_Allreduce(&sub, &a, 1, MPI_DOUBLE, MPI_SUM, grid_comm);
-    global_time += MPI_Wtime() - t_start_g;
+    global_time += clock() - t_start_g;
 
     a = r1 / a;
 
@@ -527,7 +529,7 @@ void Solve()
     r2 = r1;
 
     count++;
-    }
+  }
   free(q);
   free(p);
   free(r);
@@ -580,8 +582,8 @@ void Clean_Up()
 void print_task_times() {
   stop_timer();
   double busy = ticks * (1.0 / CLOCKS_PER_SEC);
-  double global = global_time;
-  double neighbour = neighbour_time;
+  double global = global_time * (1.0 / CLOCKS_PER_SEC);
+  double neighbour = neighbour_time * (1.0 / CLOCKS_PER_SEC);
 
   double computations = busy - global - neighbour;
   double idle = wtime - busy;
