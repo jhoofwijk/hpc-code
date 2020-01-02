@@ -197,8 +197,10 @@ int main(int argc, char** argv)
         Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
         cudaThreadSynchronize();
 
-        ComputeLamda<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecV, d_VecW, &lamda, N);
+        ComputeLamda<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecV, d_VecW, d_NormW, N);
         cudaThreadSynchronize();
+
+        cudaMemcpy(d_NormW, &lamda, sizeof(double), cudaMemcpyDeviceToHost);
         
         printf("CPU lamda at %d: %f \n", i, lamda);
 		// If residual is lass than epsilon break
