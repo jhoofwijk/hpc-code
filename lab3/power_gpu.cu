@@ -375,7 +375,7 @@ __global__ void Av_Product(float* g_MatA, float* g_VecV, float* g_VecW, int N)
             aIndex = a+tx+aa*N;
             if( aIndex < N*N)
         	    As[tx+aa*BLOCK_SIZE] = g_MatA[aIndex];
-		        else
+            else
         	    As[tx+aa*BLOCK_SIZE] = 0;
         }
 

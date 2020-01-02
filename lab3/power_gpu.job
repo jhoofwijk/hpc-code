@@ -10,7 +10,7 @@ module load cuda80/toolkit
 
 file='./power_gpu'
 
-nvcc -o $file $file.cu
+nvcc -o $file $file.cu -Wno-deprecated-gpu-targets
 
 ./$file
 
