@@ -118,7 +118,7 @@ void RunCPUPowerMethod()
 // Host code
 int main(int argc, char** argv)
 {
-
+    srand(time(0));
     struct timespec t_start,t_end;
     double runtime;
     ParseArguments(argc, argv);
