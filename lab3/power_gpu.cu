@@ -197,7 +197,7 @@ int main(int argc, char** argv)
         Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
         cudaThreadSynchronize();
 
-        ComputeLamda<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecV, d_VecW, &lambda, N);
+        ComputeLamda<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecV, d_VecW, &lamda, N);
         cudaThreadSynchronize();
         
         printf("CPU lamda at %d: %f \n", i, lamda);
