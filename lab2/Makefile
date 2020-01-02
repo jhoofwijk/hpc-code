@@ -102,24 +102,31 @@ concat: run
 4_5b: GridDist MPI_Fempois
 	rm -f output*.dat
 	./GridDist 2 2 1000 1000
-	mpirun -c 4 MPI_Fempois
+	prun -v -np 1 -4 -sge-script $ PRUN ETC/prun-openmpi ./MPI_Fempois
 
 	rm -f output*.dat
 	./GridDist 3 3 1000 1000
-	mpirun -c 9 MPI_Fempois
+	prun -v -np 1 -9 -sge-script $ PRUN ETC/prun-openmpi ./MPI_Fempois
+
+	rm -f output*.dat
+	./GridDist 3 3 1000 1000
+	prun -v -np 3 -3 -sge-script $ PRUN ETC/prun-openmpi ./MPI_Fempois
 
 	rm -f output*.dat
 	./GridDist 4 4 1000 1000
-	mpirun -c 16 MPI_Fempois
+	prun -v -np 2 -8 -sge-script $ PRUN ETC/prun-openmpi ./MPI_Fempois
 
 	rm -f output*.dat
 	./GridDist 5 5 1000 1000
-	mpirun -c 25 MPI_Fempois
+	prun -v -np 5 -5 -sge-script $ PRUN ETC/prun-openmpi ./MPI_Fempois
+
+	rm -f output*.dat
+	./GridDist 6 6 1000 1000
+	prun -v -np 3 -12 -sge-script $ PRUN ETC/prun-openmpi ./MPI_Fempois
 
 	rm -f output*.dat
 	./GridDist 10 10 1000 1000
-	mpirun -c 100 MPI_Fempois
-
+	prun -v -np 10 -10 -sge-script $ PRUN ETC/prun-openmpi ./MPI_Fempois
 
 .PHONY: 4_6
 4_6: GridDist MPI_Fempois
