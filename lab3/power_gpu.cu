@@ -97,7 +97,7 @@ void RunCPUPowerMethod()
 	for (int i=0;i<max_iteration;i++)
 	{
         CPU_NormalizeW();
-        for(int i=0;i<10;i++) {
+        for(int j=0;j<10;j++) {
             printf("%.5f   ", h_VecV[i]);
         }
         printf("\n");
@@ -207,7 +207,7 @@ int main(int argc, char** argv)
         
         
         cudaMemcpy(h_VecV, d_VecV, sizeof(float) * 10, cudaMemcpyDeviceToHost);
-        for(int i=0;i<10;i++) {
+        for(int j=0;j<10;j++) {
             printf("%.5f   ", h_VecV[i]);
         }
         printf("\n");
