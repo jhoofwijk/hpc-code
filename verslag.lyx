@@ -2350,13 +2350,58 @@ Time spent per task
 
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
 
+
+\end_layout
+
+\begin_layout Subsection
+Communication overhead
+\end_layout
+
+\begin_layout Subsection
+A-symmetric communication
+\end_layout
+
+\begin_layout Standard
+The a-symmetry comes from the fact that the domain is split into triangles.
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename meuk/grid.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The meeting point of the four subdomains.
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+As we can see in the figure, every subdomain is connected to the left or
+ right, and to the top or bottom to a different subdomain, but there is
+ one extra edge, the one between 1 and 4, while there is no connection between
+ 2 and 3.
+ This makes it so that two processes (1 and 4) have to communicate with
+ all other processes, while the other two processes (2 and 3) only need
+ to communicate with two neighbors.
 \end_layout
 
 \end_body

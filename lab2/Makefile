@@ -15,6 +15,7 @@ clean:
 	rm -f GridDist
 	rm input*-*.dat
 	rm output*.dat
+	rm mapping*.dat
 
 MPI_Fempois: MPI_Fempois.o
 	mpicc -o $@ $< -lm
@@ -46,3 +47,31 @@ run: MPI_Fempois inputs
 .PHONY: concat
 concat: run
 	cat output*-*.dat | sort > output.dat
+
+
+.PHONY: 4_2
+4_2: GridDist MPI_Fempois
+	rm -f output*.dat
+	./GridDist 2 2 100 100
+	mpirun -c 4 MPI_Fempois
+
+	rm -f output*.dat
+	./GridDist 2 2 200 200
+	mpirun -c 4 MPI_Fempois
+
+	rm -f output*.dat
+	./GridDist 2 2 400 400
+	mpirun -c 4 MPI_Fempois
+
+	rm -f output*.dat
+	./GridDist 1 4 100 100
+	mpirun -c 4 MPI_Fempois
+
+	rm -f output*.dat
+	./GridDist 1 4 200 200
+	mpirun -c 4 MPI_Fempois
+
+	rm -f output*.dat
+	./GridDist 1 4 400 400
+	mpirun -c 4 MPI_Fempois
+
