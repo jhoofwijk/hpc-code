@@ -467,8 +467,8 @@ void Solve()
   }
 
   r1 = 2 * precision_goal;
-  //  while ((count < max_iter)) // for 4.5a
-  while ((count < max_iter) && (r1 > precision_goal))
+
+  while ((count < max_iter)) // for 4.5a
   {
     /* r1 = r' * r */
     sub = 0.0;

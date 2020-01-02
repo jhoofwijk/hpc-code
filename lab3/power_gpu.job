@@ -1,0 +1,16 @@
+#!/bin/sh
+#SBATCH --time=00:15:00
+#SBATCH -N 1
+#SBATCH -C GTX480
+#SBATCH --gres=gpu:1
+
+. /etc/bashrc
+. /etc/profile.d/modules.sh
+module load cuda80/toolkit
+
+file='./power_gpu'
+
+nvcc -o $file $file.cu
+
+./$file
+

@@ -76,8 +76,30 @@ concat: run
 	mpirun -c 4 MPI_Fempois
 
 
-.PHONY: 4_5
-4_5: GridDist MPI_Fempois
+.PHONY: 4_5a
+4_5a: GridDist MPI_Fempois
+	rm -f output*.dat
+	./GridDist 2 2 10 10
+	mpirun -c 4 MPI_Fempois
+
+	rm -f output*.dat
+	./GridDist 2 2 20 20
+	mpirun -c 4 MPI_Fempois
+
+	rm -f output*.dat
+	./GridDist 2 2 30 30
+	mpirun -c 4 MPI_Fempois
+
+	rm -f output*.dat
+	./GridDist 2 2 25 25
+	mpirun -c 4 MPI_Fempois
+
+	rm -f output*.dat
+	./GridDist 2 2 8 8
+	mpirun -c 4 MPI_Fempois
+
+.PHONY: 4_5b
+4_5b: GridDist MPI_Fempois
 	rm -f output*.dat
 	./GridDist 2 2 1000 1000
 	mpirun -c 4 MPI_Fempois
