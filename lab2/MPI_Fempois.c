@@ -425,15 +425,17 @@ long long neighbour_time = 0;
 long long global_time = 0;
 void Exchange_Borders(double *vect)
 {
-  long long t_start = clock();
-  
+  MPI_Barrier(grid_comm);
+
+
   for(int i=0;i<N_neighb;i++) {
+    long long t_start = clock();
     MPI_Sendrecv(vect, 1, send_type[i], proc_neighb[i], 0, 
                  vect, 1, recv_type[i], proc_neighb[i], 0,
                  grid_comm, &status);
+    neighbour_time += clock() - t_start;
   }
 
-  neighbour_time += clock() - t_start;
 }
 
 void Solve()
@@ -591,7 +593,7 @@ void print_task_times() {
   MPI_Allreduce(&global, &global, 1, MPI_DOUBLE, MPI_SUM, grid_comm);
 
   if(proc_rank == 0) {
-    printf("comp, neigh, global, idle:\n%.3f\n%.3f\n%.3f\n%.3f\n", computations / 4, neighbour / 4, global / 4, idle / 4);
+    printf("comp, neigh, global, idle, communication:\n%.3f\n%.3f\n%.3f\n%.3f\n%.3f\n\n", computations / P, neighbour / P, global / P, idle / P, (neighbour + global) / P);
   }
   resume_timer();
 }
