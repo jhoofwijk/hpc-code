@@ -144,7 +144,7 @@ int main(int argc, char** argv)
     clock_gettime(CLOCK_REALTIME,&t_end);
     runtime = (t_end.tv_sec - t_start.tv_sec) + 1e-9*(t_end.tv_nsec - t_start.tv_nsec);
     printf("CPU: run time = %f secs.\n",runtime);
-    printf("Power method in CPU is finished\n");
+    printf("Power method in CPU is finished\n\n\n");
     
     
     /////////////////////////////////////////////////
@@ -190,6 +190,8 @@ int main(int argc, char** argv)
 	{
         FindNormW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, N);
         cudaThreadSynchronize();
+        cudaMemcpy(&lamda, d_NormW, sizeof(double), cudaMemcpyDeviceToHost);
+        printf("norm: %f", lamda);
 
         NormalizeW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, d_VecV, N);
         cudaThreadSynchronize();
