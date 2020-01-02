@@ -175,7 +175,7 @@ int main(int argc, char** argv)
 	  
     //Power method loops
     printf("*************************************\n");
-	float lamda=0;
+	float lamda=11;
     float OldLamda =0;
     
     Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
@@ -191,7 +191,8 @@ int main(int argc, char** argv)
         FindNormW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, N);
         cudaThreadSynchronize();
         cudaMemcpy(&lamda, d_NormW, sizeof(double), cudaMemcpyDeviceToHost);
-        printf("norm: %f", lamda);
+        checkCudaError("memcpy error");
+        printf("norm: %f\n", lamda);
 
         NormalizeW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, d_VecV, N);
         cudaThreadSynchronize();
