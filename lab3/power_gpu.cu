@@ -97,10 +97,10 @@ void RunCPUPowerMethod()
 	for (int i=0;i<max_iteration;i++)
 	{
         CPU_NormalizeW();
-        for(int j=0;j<10;j++) {
-            printf("%.5f   ", h_VecV[i]);
-        }
-        printf("\n");
+        // for(int j=0;j<10;j++) {
+        //     printf("%.5f   ", h_VecV[i]);
+        // }
+        // printf("\n");
 
 		CPU_AvProduct();
 		lamda= CPU_ComputeLamda();
@@ -208,11 +208,11 @@ int main(int argc, char** argv)
         NormalizeW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, d_VecV, N);
         cudaThreadSynchronize();
         
-        cudaMemcpy(h_VecV, d_VecV, sizeof(float) * 10, cudaMemcpyDeviceToHost);
-        for(int j=0;j<10;j++) {
-            printf("%.5f   ", h_VecV[i]);
-        }
-        printf("\n");
+        // cudaMemcpy(h_VecV, d_VecV, sizeof(float) * 10, cudaMemcpyDeviceToHost);
+        // for(int j=0;j<10;j++) {
+        //     printf("%.5f   ", h_VecV[i]);
+        // }
+        // printf("\n");
         
         cudaThreadSynchronize();
 
