@@ -42,7 +42,7 @@ void checkCardVersion(void);
 // Kernels
 __global__ void Av_Product(float* g_MatA, float* g_VecV, float* g_VecW, int N);
 __global__ void FindNormW(float* g_VecW, float * g_NormW, int N);
-__global__ void NormalizeW(float* g_VecW, float * g_NormW, float* g_VecV, int N)
+__global__ void NormalizeW(float* g_VecW, float * g_NormW, float* g_VecV, int N);
 __global__ void ComputeLamda( float* g_VecV, float* g_VecW, float * g_Lamda,int N);
 
 
