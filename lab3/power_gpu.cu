@@ -191,9 +191,13 @@ int main(int argc, char** argv)
     // Please finish this part based on the given code. Do not forget the command line 
     // cudaThreadSynchronize() after calling the function every time in CUDA to synchoronize the threads
 	
-	//power loop
+    //power loop
+    float zero = 0.0;
 	for (int i=0;i<max_iteration;i++)
 	{
+        cudaMemcpy(d_NormW, &zero, sizeof(float), cudaMemcpyHostToDevice);
+        cudaThreadSynchronize();
+
         FindNormW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, N);
         cudaThreadSynchronize();
 
@@ -205,7 +209,6 @@ int main(int argc, char** argv)
         NormalizeW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, d_VecV, N);
         cudaThreadSynchronize();
         
-        
         cudaMemcpy(h_VecV, d_VecV, sizeof(float) * 10, cudaMemcpyDeviceToHost);
         for(int j=0;j<10;j++) {
             printf("%.5f   ", h_VecV[i]);
@@ -215,6 +218,9 @@ int main(int argc, char** argv)
         cudaThreadSynchronize();
 
         Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
+        cudaThreadSynchronize();
+        
+        cudaMemcpy(d_NormW, &zero, sizeof(float), cudaMemcpyHostToDevice);
         cudaThreadSynchronize();
 
         ComputeLamda<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecV, d_VecW, d_NormW, N);
