@@ -177,6 +177,7 @@ int main(int argc, char** argv)
     printf("*************************************\n");
 	float lamda=11;
     float OldLamda =0;
+    float h_NormW = 0;
     
     Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
     cudaThreadSynchronize(); //Needed, kind of barrier to sychronize all threads
@@ -190,8 +191,10 @@ int main(int argc, char** argv)
 	{
         FindNormW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, N);
         cudaThreadSynchronize();
-        cudaMemcpy(&lamda, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
-        printf("norm: %f\n", lamda);
+
+        cudaMemcpy(&h_NormW, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
+        h_NormW = sqrt(h_NormW);        
+        cudaMemcpy(d_NormW, &h_NormW, sizeof(float), cudaMemcpyHostToDevice);
 
         NormalizeW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, d_VecV, N);
         cudaThreadSynchronize();
