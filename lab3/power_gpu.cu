@@ -191,7 +191,6 @@ int main(int argc, char** argv)
         FindNormW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, N);
         cudaThreadSynchronize();
         cudaMemcpy(&lamda, d_NormW, sizeof(double), cudaMemcpyDeviceToHost);
-        checkCudaError("memcpy error");
         printf("norm: %f\n", lamda);
 
         NormalizeW<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_VecW, d_NormW, d_VecV, N);
