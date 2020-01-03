@@ -234,15 +234,6 @@ int main(int argc, char** argv)
         OldLamda = lamda;	    
 	}
 	printf("*************************************\n");
-    
-
-    cudaMemcpy(h_VecV, d_VecW, vec_size, cudaMemcpyDeviceToHost);
-
-    printf("CPU Vector     GPU Vector     Difference\n");
-    for(int i=0; i<N; i++) {
-        printf("%5.9f %5.9f %5.9f\n", h_VecV[i], h_VecW[i], h_VecV[i] - h_VecW[i]);
-    }
-    
 
     clock_gettime(CLOCK_REALTIME,&t_end);
     runtime = (t_end.tv_sec - t_start.tv_sec) + 1e-9*(t_end.tv_nsec - t_start.tv_nsec);
