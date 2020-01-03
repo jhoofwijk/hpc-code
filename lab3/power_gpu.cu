@@ -168,7 +168,7 @@ int main(int argc, char** argv)
 
     // Set the kernel arguments
     int threadsPerBlock = BlockSize;   
-    int sharedMemSize = threadsPerBlock * (threadsPerBlock + 1) * sizeof(float); // in per block, the memory is shared   
+    int sharedMemSize = threadsPerBlock * threadsPerBlock * sizeof(float); // in per block, the memory is shared   
     int blocksPerGrid = (N + threadsPerBlock - 1) / threadsPerBlock;
 
     // Allocate matrix and vectors in device memory
