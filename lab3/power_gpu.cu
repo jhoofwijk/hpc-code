@@ -228,13 +228,20 @@ int main(int argc, char** argv)
         cudaMemcpy(&lamda, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
         
         printf("GPU lamda at %d: %f \n", i, lamda);
-		// If residual is lass than epsilon break
+		// If residual is less than epsilon break
 		if(abs(OldLamda - lamda) < EPS)
             break;
         OldLamda = lamda;	    
 	}
 	printf("*************************************\n");
     
+
+    cudaMemcpy(h_VecV, d_VecW, vec_size, cudaMemcpyDeviceToHost);
+
+    printf("CPU Vector     GPU Vector     Difference\n");
+    for(int i=0; i<N; i++) {
+        printf("%5.9f %5.9f %5.9f\n", h_VecV[i], h_VecW[i], h_VecV[i] - h_VecW[i]);
+    }
     
 
     clock_gettime(CLOCK_REALTIME,&t_end);

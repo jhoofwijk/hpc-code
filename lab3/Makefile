@@ -1,5 +1,7 @@
 
-all:
+all: clean run
+
+run:
 	sbatch power_gpu.job
 
 clean:

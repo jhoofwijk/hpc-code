@@ -3017,13 +3017,7 @@ Time spend per task for fixed grid size (per process) until convergence
 
 \end_inset
 
-It seems highly unlikely that these numbers are correct, why is there such
- a sudden jump from 8 to 9 processes? On my computer I do have 8 cores,
- but that does not explain the jump in communication times.
- Also, if it is waiting on something, the communication time should go up
- at most 1/9th of the computation time, but that should be counted as idle
- time, which in fact seems to be counted correctly.
- So I have no clue where all this communication time is coming from.
+
 \end_layout
 
 \begin_layout Subsection
