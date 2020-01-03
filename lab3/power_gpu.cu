@@ -25,7 +25,7 @@ float* h_NormW = NULL;
 float* d_NormW = NULL;
 
 // Variables to change
-int GlobalSize = 1000;         // this is the dimension of the matrix, GlobalSize*GlobalSize
+int GlobalSize = 5000;         // this is the dimension of the matrix, GlobalSize*GlobalSize
 int BlockSize = 32;            // number of threads in each block
 const float EPS = 0.000005;    // tolerence of the error
 int max_iteration = 100;       // the maximum iteration steps
@@ -208,14 +208,6 @@ int main(int argc, char** argv)
         NormalizeW<<<blocksPerGrid, threadsPerBlock, sizeof(float)>>>(d_VecW, d_NormW, d_VecV, N);
         cudaThreadSynchronize();
         
-        // cudaMemcpy(h_VecV, d_VecV, sizeof(float) * 10, cudaMemcpyDeviceToHost);
-        // for(int j=0;j<10;j++) {
-        //     printf("%.5f   ", h_VecV[i]);
-        // }
-        // printf("\n");
-        
-        cudaThreadSynchronize();
-
         Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
         cudaThreadSynchronize();
         
