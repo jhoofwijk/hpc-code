@@ -195,30 +195,21 @@ int main(int argc, char** argv)
 	for (int i=0;i<max_iteration;i++)
 	{
         cudaMemcpy(d_NormW, &zero, sizeof(float), cudaMemcpyHostToDevice);
-        cudaThreadSynchronize();
-
         FindNormW<<<blocksPerGrid, threadsPerBlock, threadsPerBlock * sizeof(float)>>>(d_VecW, d_NormW, N);
-        cudaThreadSynchronize();
 
         cudaMemcpy(h_NormW, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
         h_NormW[0] = sqrt(h_NormW[0]);        
         cudaMemcpy(d_NormW, h_NormW, sizeof(float), cudaMemcpyHostToDevice);
-        cudaThreadSynchronize();
 
         NormalizeW<<<blocksPerGrid, threadsPerBlock, sizeof(float)>>>(d_VecW, d_NormW, d_VecV, N);
-        cudaThreadSynchronize();
         
         Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
-        cudaThreadSynchronize();
         
         cudaMemcpy(d_NormW, &zero, sizeof(float), cudaMemcpyHostToDevice);
-        cudaThreadSynchronize();
-
         ComputeLamda<<<blocksPerGrid, threadsPerBlock, threadsPerBlock * sizeof(float)>>>(d_VecV, d_VecW, d_NormW, N);
-        cudaThreadSynchronize();
-
         cudaMemcpy(&lamda, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
         
+        cudaThreadSynchronize();
         printf("GPU lamda at %d: %f \n", i, lamda);
 		// If residual is less than epsilon break
 		if(abs(OldLamda - lamda) < EPS)
