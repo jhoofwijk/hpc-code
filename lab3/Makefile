@@ -5,47 +5,50 @@ run:
 	sbatch power_gpu.job
 
 all_sizes:
+	cat power_gpu.cu | sed 's/32/32/'  | tee power_gpu32.cu
+	cat power_gpu.cu | sed 's/32/64/'  | tee power_gpu64.cu
+	cat power_gpu.cu | sed 's/32/128/' | tee power_gpu128.cu
+
+
 	# GRID 50
 	cat power_gpu.job | sed -E 's/size [0-9]+/size 50/' | tee power_gpu.job
 	# 32
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu32/' | tee power_gpu.job
 	sbatch power_gpu.job
 	# 64
-	cat power_gpu.cu | sed 's/32/64/' | tee power_gpu.cu
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu64/' | tee power_gpu.job
 	sbatch power_gpu.job
 	# 128
-	cat power_gpu.cu | sed 's/64/128/' | tee power_gpu.cu
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu128/' | tee power_gpu.job
 	sbatch power_gpu.job
-	# cleanup
-	cat power_gpu.cu | sed 's/128/32/' | tee power_gpu.cu
 
 
 	# GRID 500
 	cat power_gpu.job | sed -E 's/size [0-9]+/size 500/' | tee power_gpu.job
 	# 32
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu32/' | tee power_gpu.job
 	sbatch power_gpu.job
 	# 64
-	cat power_gpu.cu | sed 's/32/64/' | tee power_gpu.cu
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu64/' | tee power_gpu.job
 	sbatch power_gpu.job
 	# 128
-	cat power_gpu.cu | sed 's/64/128/' | tee power_gpu.cu
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu128/' | tee power_gpu.job
 	sbatch power_gpu.job
-	# cleanup
-	cat power_gpu.cu | sed 's/128/32/' | tee power_gpu.cu
 
 
 	# GRID 2000
 	cat power_gpu.job | sed -E 's/size [0-9]+/size 2000/' | tee power_gpu.job
 	# 32
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu32/' | tee power_gpu.job
 	sbatch power_gpu.job
 	# 64
-	cat power_gpu.cu | sed 's/32/64/' | tee power_gpu.cu
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu64/' | tee power_gpu.job
 	sbatch power_gpu.job
 	# 128
-	cat power_gpu.cu | sed 's/64/128/' | tee power_gpu.cu
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu128/' | tee power_gpu.job
 	sbatch power_gpu.job
-	# cleanup
-	cat power_gpu.cu | sed 's/128/32/' | tee power_gpu.cu
-	
+
+
 
 
 clean:
