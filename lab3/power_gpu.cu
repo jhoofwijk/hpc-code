@@ -27,8 +27,10 @@ float* d_NormW = NULL;
 // Variables to change
 int GlobalSize = 5000;         // this is the dimension of the matrix, GlobalSize*GlobalSize
 int BlockSize = 32;            // number of threads in each block
-const float EPS = 0.000005;    // tolerence of the error
-int max_iteration = 100;       // the maximum iteration steps
+// const float EPS = 0.000005;    // tolerence of the error
+// int max_iteration = 100;       // the maximum iteration steps
+const float EPS = -1;
+int max_iteration = 10;
 
 
 // Functions
@@ -125,6 +127,8 @@ int main(int argc, char** argv)
 		
     int N = GlobalSize;
     printf("Matrix size %d X %d \n", N, N);
+    printf("BlockSize: %d\n\n", BLOCK_SIZE);
+
     size_t vec_size = N * sizeof(float);
     size_t mat_size = N * N * sizeof(float);
     size_t norm_size = sizeof(float);
@@ -220,7 +224,7 @@ int main(int argc, char** argv)
 
     clock_gettime(CLOCK_REALTIME,&t_end);
     runtime = (t_end.tv_sec - t_start.tv_sec) + 1e-9*(t_end.tv_nsec - t_start.tv_nsec);
-    printf("GPU: run time = %f secs.\n",runtime);
+    printf("GPU: run time = %f secs.\n\n\n\n\n",runtime);
     // printf("Overall CPU Execution Time: %f (ms) \n", cutGetTimerValue(timer_CPU));
 
     Cleanup();
