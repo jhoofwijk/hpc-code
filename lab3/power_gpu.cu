@@ -118,7 +118,7 @@ void RunCPUPowerMethod()
 }
 
 void start_timer(struct timespec *timer) {
-    clock_gettime(CLOCK_REALTIME,&timer);  // Here I start to count
+    clock_gettime(CLOCK_REALTIME, timer);  // Here I start to count
 }
 
 double stop_timer(struct timespec *timer) {

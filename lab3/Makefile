@@ -69,3 +69,6 @@ clean:
 	rm -f slurm*.out
 	rm -f HelloWorld
 	rm -f power_gpu
+	rm -f power_gpu16 power_gpu32 power_gpu64 power_gpu128 
+	rm -f power_gpu16.cu power_gpu32.cu power_gpu64.cu power_gpu128.cu 
+
