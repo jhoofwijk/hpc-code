@@ -420,7 +420,7 @@ __global__ void ComputeLamda( float* g_VecV, float* g_VecW, float * g_Lamda,int 
   // do reduction in shared mem
   for (unsigned int s=blockDim.x / 2; s > 0; s = s >> 1) {
      if ((tid < s) && (tid + s < N)) {
-         g_VecV[offset + tid] = g_VecV[offset + tid] + g_VecV[offset + tid + s]
+         g_VecV[offset + tid] = g_VecV[offset + tid] + g_VecV[offset + tid + s];
      }
      __syncthreads();
   }
