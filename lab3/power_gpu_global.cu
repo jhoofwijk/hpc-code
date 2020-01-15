@@ -366,7 +366,6 @@ __global__ void Av_Product(float* g_MatA, float* g_VecV, float* g_VecW, int N)
     int step  = BLOCK_SIZE;
 
     int bBegin = 0;//BLOCK_SIZE * bx;
-    int bIndex=0;
     int aIndex =0;
     float Csub = 0;
 
