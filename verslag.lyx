@@ -88,7 +88,7 @@ Lab assignment 1
 \end_layout
 
 \begin_layout Subsection
-Algorithmic improvement:
+Algorithmic improvement
 \end_layout
 
 \begin_layout Standard
@@ -690,10 +690,8 @@ It has to be noted that between repeated runs with the same settings, there
  not make a difference.
  (Note I ran the tests locally and not on the cluster, as I could not reliably
  connect to the cluster).
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -933,7 +931,7 @@ Number of iterations
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1100,9 +1098,10 @@ Number of iterations vs problem size
 
 It appears as though this follows some quadratic form, which seems believable.
 \begin_inset Float figure
+placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1142,6 +1141,7 @@ Error vs iteration number
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -1197,10 +1197,8 @@ Multiple sweeps between communication
 This is where it gets interesting.
  I use the 2x2 layout.
  As now this seems the best approach.
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -2569,6 +2567,7 @@ Communication time == computation time
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -2780,6 +2779,7 @@ Time spend per task for fixed number of processes (time per process) for
 From this we conclude: if the layout is 2x2, a grid size of 25x25 nodes
  will yield the same communication and computation times.
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -3348,7 +3348,45 @@ GPU Power Method
 \end_layout
 
 \begin_layout Subsection
-adsf
+Shared vs Global memory
+\end_layout
+
+\begin_layout Standard
+So it turns out that the program we were provided with already uses the
+ shared memory for convenience.
+ Each function first copies some variables (especially lines from the matrix
+ and part of the vector) from the global memory into the shared memory and
+ then performs some operations on it.
+\end_layout
+
+\begin_layout Standard
+Now to use the global memory we need to remove the 
+\begin_inset Quotes eld
+\end_inset
+
+__shared__
+\begin_inset Quotes erd
+\end_inset
+
+ variables and all references to them and replace them by using the vectors/matr
+ices which are provided to the function (i.e.
+ the pointers 
+\begin_inset Quotes eld
+\end_inset
+
+g_MatA
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+g_VecV
+\begin_inset Quotes erd
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Subsection
@@ -3364,6 +3402,7 @@ So, first of all, the program could not compile with a block size of 128.
  10 iterations of the algorithm, so that the timing is more consistent (I
  noticed that almost always lambda converged within 10 iterations).
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -3371,8 +3410,11 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="5">
+<lyxtabular version="3" rows="6" columns="8">
 <features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -3424,6 +3466,33 @@ Time (s)
 
 \end_inset
 </cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time (s) without memory copies
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
@@ -3440,6 +3509,33 @@ Time (s)
 
 \begin_layout Plain Layout
 CPU 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GPU 16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GPU 32
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GPU 64
 \end_layout
 
 \end_inset
@@ -3518,6 +3614,33 @@ GPU 64
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00026
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00026
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00028
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
@@ -3561,6 +3684,33 @@ GPU 64
 
 \begin_layout Plain Layout
 0.0616
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00032
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00036
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00035
 \end_layout
 
 \end_inset
@@ -3612,6 +3762,33 @@ GPU 64
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00093
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.00075
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0014
+\end_layout
+
+\end_inset
+</cell>
 </row>
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
@@ -3659,6 +3836,33 @@ GPU 64
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0030
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0034
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0059
+\end_layout
+
+\end_inset
+</cell>
 </row>
 </lyxtabular>
 
@@ -3672,6 +3876,7 @@ GPU 64
 
 \begin_layout Plain Layout
 Timing CPU vs GPU for various problem sizes and block sizes.
+ (the times without memory copy are used for the next exercise).
 \end_layout
 
 \end_inset
@@ -3690,6 +3895,7 @@ Speedup
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -3720,10 +3926,11 @@ Problem size
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $t_{\text{gpu}}/t_{\text{cpu}}$
+Speedup (
+\begin_inset Formula $t_{\text{cpu}}/t_{\text{gpu}}$
 \end_inset
 
-
+)
 \end_layout
 
 \end_inset
@@ -3788,7 +3995,7 @@ Problem size
 \begin_inset Text
 
 \begin_layout Plain Layout
-Including copy
+Including time for copy
 \end_layout
 
 \end_inset
@@ -3815,7 +4022,7 @@ Including copy
 \begin_inset Text
 
 \begin_layout Plain Layout
-Excluding copy)
+Excluding time for copy
 \end_layout
 
 \end_inset
@@ -3918,7 +4125,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-243
+0.004
 \end_layout
 
 \end_inset
@@ -3927,7 +4134,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-252
+0.004
 \end_layout
 
 \end_inset
@@ -3936,7 +4143,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-250
+0.004
 \end_layout
 
 \end_inset
@@ -3945,7 +4152,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -3954,7 +4161,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+1
 \end_layout
 
 \end_inset
@@ -3963,7 +4170,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.93
 \end_layout
 
 \end_inset
@@ -3983,7 +4190,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.4
+0.42
 \end_layout
 
 \end_inset
@@ -3992,7 +4199,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.4
+0.41
 \end_layout
 
 \end_inset
@@ -4001,7 +4208,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.4
+0.41
 \end_layout
 
 \end_inset
@@ -4010,7 +4217,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+78
 \end_layout
 
 \end_inset
@@ -4019,7 +4226,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+70
 \end_layout
 
 \end_inset
@@ -4028,7 +4235,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+72
 \end_layout
 
 \end_inset
@@ -4048,7 +4255,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.2
+4.9
 \end_layout
 
 \end_inset
@@ -4057,7 +4264,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.2
+4.8
 \end_layout
 
 \end_inset
@@ -4066,7 +4273,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.2
+4.7
 \end_layout
 
 \end_inset
@@ -4075,7 +4282,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+368
 \end_layout
 
 \end_inset
@@ -4084,7 +4291,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+456
 \end_layout
 
 \end_inset
@@ -4093,7 +4300,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+244
 \end_layout
 
 \end_inset
@@ -4113,7 +4320,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.05
+18.9
 \end_layout
 
 \end_inset
@@ -4122,7 +4329,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.06
+17.8
 \end_layout
 
 \end_inset
@@ -4131,7 +4338,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.07
+14.4
 \end_layout
 
 \end_inset
@@ -4140,7 +4347,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+700
 \end_layout
 
 \end_inset
@@ -4149,7 +4356,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+617
 \end_layout
 
 \end_inset
@@ -4158,7 +4365,7 @@ GPU 64
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+355
 \end_layout
 
 \end_inset
@@ -4190,7 +4397,49 @@ Relative speed of GPU vs CPU for various problem sizes and block sizes.
 \end_layout
 
 \begin_layout Standard
+We clearly see that if the problem is small, the overhead of using the GPU
+ is so large that using the GPU is many times slower than using the CPU.
+ However, when the problem size becomes bigger, the performance gain of
+ using the GPU outweighs the overhead of getting the data into the GPU and
+ we start seeing great speedups, up to 20 times.
+ 
+\end_layout
 
+\begin_layout Standard
+However, when we do not take the overhead of copying memory between the
+ CPU and the GPU into account and only time the actual computation time,
+ we see that the GPU is many many times faster than the CPU, especially
+ on the bigger problems.
+ With speedups of up to 700 times.
+ 
+\end_layout
+
+\begin_layout Standard
+Even though this is an amazing speedup.
+ I think it is fairest to compare the total execution time of the two methods.
+ As that will be the time that you will actually have to wait for the program
+ to complete.
+ Which is gonna be the left half of the table.
+\end_layout
+
+\begin_layout Subsection
+Explanation
+\end_layout
+
+\begin_layout Standard
+So we have tested 3 different cases for the GPU:
+\end_layout
+
+\begin_layout Enumerate
+GPU with shared memory and with memory copy overhead
+\end_layout
+
+\begin_layout Enumerate
+GPU with shared memory and without memory copy overhead
+\end_layout
+
+\begin_layout Enumerate
+GPU with global memory and with memory copy overhead
 \end_layout
 
 \end_body
