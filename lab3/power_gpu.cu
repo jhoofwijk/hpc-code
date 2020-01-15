@@ -178,6 +178,7 @@ int main(int argc, char** argv)
     InitOne(h_VecV,N);
     
     start_timer(&timer);  // Here I start to count
+    double gpu_time=0.0;
 
     // Set the kernel arguments
     int threadsPerBlock = BlockSize;   
@@ -200,8 +201,10 @@ int main(int argc, char** argv)
 	float lamda = 0;
     float OldLamda =0;
     
+    start_timer(&timer);
     Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
     cudaThreadSynchronize(); //Needed, kind of barrier to sychronize all threads
+    gpu_time += stop_timer(&timer);
 	
     // This part is the main code of the iteration process for the Power Method in GPU. 
     // Please finish this part based on the given code. Do not forget the command line 
@@ -212,18 +215,29 @@ int main(int argc, char** argv)
 	for (int i=0;i<max_iteration;i++)
 	{
         cudaMemcpy(d_NormW, &zero, sizeof(float), cudaMemcpyHostToDevice);
+        start_timer(&timer);
         FindNormW<<<blocksPerGrid, threadsPerBlock, threadsPerBlock * sizeof(float)>>>(d_VecW, d_NormW, N);
+        gpu_time += stop_timer(&timer);
+        
 
         cudaMemcpy(h_NormW, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
         h_NormW[0] = sqrt(h_NormW[0]);        
         cudaMemcpy(d_NormW, h_NormW, sizeof(float), cudaMemcpyHostToDevice);
+        
 
+
+        start_timer(&timer);
         NormalizeW<<<blocksPerGrid, threadsPerBlock, sizeof(float)>>>(d_VecW, d_NormW, d_VecV, N);
         
         Av_Product<<<blocksPerGrid, threadsPerBlock, sharedMemSize>>>(d_MatA, d_VecV, d_VecW, N);
+        gpu_time += stop_timer(&timer);
+        
+        
         
         cudaMemcpy(d_NormW, &zero, sizeof(float), cudaMemcpyHostToDevice);
+        start_timer(&timer);
         ComputeLamda<<<blocksPerGrid, threadsPerBlock, threadsPerBlock * sizeof(float)>>>(d_VecV, d_VecW, d_NormW, N);
+        gpu_time += stop_timer(&timer);
         cudaMemcpy(&lamda, d_NormW, sizeof(float), cudaMemcpyDeviceToHost);
         
         cudaThreadSynchronize();
@@ -235,8 +249,7 @@ int main(int argc, char** argv)
 	}
 	printf("*************************************\n");
 
-    runtime = stop_timer(&timer);
-    printf("GPU: run time = %f secs.\n\n\n\n\n",runtime);
+    printf("GPU: run time = %f secs.\n\n\n\n\n",gpu_time);
     // printf("Overall CPU Execution Time: %f (ms) \n", cutGetTimerValue(timer_CPU));
 
     Cleanup();

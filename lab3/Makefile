@@ -13,53 +13,53 @@ all_sizes:
 
 	# GRID 50
 	cat power_gpu.job | sed -E 's/size [0-9]+/size 50/' | tee power_gpu.job
+	# 16
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu16/' | tee power_gpu.job
+	sbatch power_gpu.job
 	# 32
 	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu32/' | tee power_gpu.job
 	sbatch power_gpu.job
 	# 64
 	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu64/' | tee power_gpu.job
-	sbatch power_gpu.job
-	# 128
-	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu128/' | tee power_gpu.job
 	sbatch power_gpu.job
 
 
 	# GRID 500
 	cat power_gpu.job | sed -E 's/size [0-9]+/size 500/' | tee power_gpu.job
+	# 16
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu16/' | tee power_gpu.job
+	sbatch power_gpu.job
 	# 32
 	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu32/' | tee power_gpu.job
 	sbatch power_gpu.job
 	# 64
 	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu64/' | tee power_gpu.job
-	sbatch power_gpu.job
-	# 128
-	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu128/' | tee power_gpu.job
 	sbatch power_gpu.job
 
 
 	# GRID 2000
 	cat power_gpu.job | sed -E 's/size [0-9]+/size 2000/' | tee power_gpu.job
+	# 16
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu16/' | tee power_gpu.job
+	sbatch power_gpu.job
 	# 32
 	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu32/' | tee power_gpu.job
 	sbatch power_gpu.job
 	# 64
 	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu64/' | tee power_gpu.job
-	sbatch power_gpu.job
-	# 128
-	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu128/' | tee power_gpu.job
 	sbatch power_gpu.job
 
 
 	# GRID 5000
 	cat power_gpu.job | sed -E 's/size [0-9]+/size 5000/' | tee power_gpu.job
+	# 16
+	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu16/' | tee power_gpu.job
+	sbatch power_gpu.job
 	# 32
 	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu32/' | tee power_gpu.job
 	sbatch power_gpu.job
 	# 64
 	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu64/' | tee power_gpu.job
-	sbatch power_gpu.job
-	# 128
-	cat power_gpu.job | sed -E 's/power_gpu[0-9]*/power_gpu128/' | tee power_gpu.job
 	sbatch power_gpu.job
 
 
