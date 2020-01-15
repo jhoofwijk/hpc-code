@@ -216,7 +216,7 @@ int main(int argc, char** argv)
 	{
         cudaMemcpy(d_NormW, &zero, sizeof(float), cudaMemcpyHostToDevice);
         start_timer(&timer);
-        FindNormW<<<blocksPerGrid, threadsPerBlock, threadsPerBlock * sizeof(float)>>>(d_VecW, d_NormW, N);
+        FindNormW<<<blocksPerGrid, threadsPerBlock, threadsPerBlock * sizeof(float)>>>(d_VecW, d_VecV, d_NormW, N);
         gpu_time += stop_timer(&timer);
         
 
@@ -433,31 +433,23 @@ __global__ void ComputeLamda( float* g_VecV, float* g_VecW, float * g_Lamda,int 
 /****************************************************
 Normalizes vector W : W/norm(W)
 ****************************************************/
-__global__ void FindNormW(float* g_VecW, float * g_NormW, int N)
+__global__ void FindNormW(float* g_VecW, float* g_tempV, float * g_NormW, int N)
 {
   // shared memory size declared at kernel launch
-  extern __shared__ float sdata[];
   unsigned int tid = threadIdx.x;
   unsigned int globalid = blockIdx.x*blockDim.x + threadIdx.x;
 
   // For thread ids greater than data space
   if (globalid < N) {
-     sdata[tid] =  g_VecW[globalid];
-  }
-  else {
-     sdata[tid] = 0;  // Case of extra threads above N
+     g_tempV[globalid] =  g_VecW[globalid] * g_VecW[globalid];
   }
 
-  // each thread loads one element from global to shared mem
-  __syncthreads();
-
-  sdata[tid] = sdata[tid] * sdata[tid];
   __syncthreads();
 
   // do reduction in shared mem
   for (unsigned int s=blockDim.x / 2; s > 0; s = s >> 1) {
-     if (tid < s) {
-         sdata[tid] = sdata[tid] + sdata[tid+ s];
+     if ((tid < s) && (globalid + s < N)) {
+         g_tempV[globalid] = g_tempV[globalid] + g_tempV[globalid + s];
      }
      __syncthreads();
   }
