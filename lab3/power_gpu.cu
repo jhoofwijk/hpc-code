@@ -117,11 +117,23 @@ void RunCPUPowerMethod()
 	
 }
 
+void start_timer(struct timespec *timer) {
+    clock_gettime(CLOCK_REALTIME,&timer);  // Here I start to count
+}
+
+double stop_timer(struct timespec *timer) {
+    struct timespec t_end;
+
+    clock_gettime(CLOCK_REALTIME, &t_end);
+    return (t_end.tv_sec - timer->tv_sec) + 1e-9*(t_end.tv_nsec - timer->tv_nsec);
+}
+
+
 // Host code
 int main(int argc, char** argv)
 {
     srand(time(0));
-    struct timespec t_start,t_end;
+    struct timespec timer;
     double runtime;
     ParseArguments(argc, argv);
 		
@@ -148,10 +160,11 @@ int main(int argc, char** argv)
     InitOne(h_VecV,N);
 
     printf("Power method in CPU starts\n");	   
-    clock_gettime(CLOCK_REALTIME,&t_start);
+    
+    start_timer(&timer);
     RunCPUPowerMethod();   // the lamda is already solved here
-    clock_gettime(CLOCK_REALTIME,&t_end);
-    runtime = (t_end.tv_sec - t_start.tv_sec) + 1e-9*(t_end.tv_nsec - t_start.tv_nsec);
+    runtime = stop_timer(&timer);
+
     printf("CPU: run time = %f secs.\n",runtime);
     printf("Power method in CPU is finished\n\n\n");
     
@@ -164,7 +177,7 @@ int main(int argc, char** argv)
     // Initialize input matrix
     InitOne(h_VecV,N);
     
-    clock_gettime(CLOCK_REALTIME,&t_start);  // Here I start to count
+    start_timer(&timer);  // Here I start to count
 
     // Set the kernel arguments
     int threadsPerBlock = BlockSize;   
@@ -222,8 +235,7 @@ int main(int argc, char** argv)
 	}
 	printf("*************************************\n");
 
-    clock_gettime(CLOCK_REALTIME,&t_end);
-    runtime = (t_end.tv_sec - t_start.tv_sec) + 1e-9*(t_end.tv_nsec - t_start.tv_nsec);
+    runtime = stop_timer(&timer);
     printf("GPU: run time = %f secs.\n\n\n\n\n",runtime);
     // printf("Overall CPU Execution Time: %f (ms) \n", cutGetTimerValue(timer_CPU));
 
