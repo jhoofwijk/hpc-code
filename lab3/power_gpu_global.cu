@@ -360,50 +360,21 @@ __global__ void Av_Product(float* g_MatA, float* g_VecV, float* g_VecW, int N)
     int tx = threadIdx.x;
 
     float Csub = 0;
-    int offset = (tx * N) + (bx * BLOCK_SIZE * N);
+    int row = tx + bx * BLOCK_SIZE;
+    int offset = N * row;
 
-    for(int j=0;j<N;j++) {
-        Csub += g_MatA[j + offset];
+    
+    if(row < N) {
+        for (int j = 0; j < N; j++) {
+            Csub += g_MatA[j + offset];
+        }
     }
-
-    // int aBegin = N * BLOCK_SIZE * bx;
-
-    // int aEnd   = aBegin + N - 1;
-    // int step  = BLOCK_SIZE;
-
-    // int bBegin = 0;//BLOCK_SIZE * bx;
-    // int aIndex =0;
-    // float Csub = 0;
-
-    // for (int a = aBegin, b = bBegin;
-    //      a <= aEnd;
-    //      a += step, b += step)
-    // {
-
-    //     __shared__ float As[BLOCK_SIZE*BLOCK_SIZE];
-        
-
-    //     for (int aa = 0; aa < BLOCK_SIZE;aa+= 1)
-    //     {
-    //         aIndex = a+tx+aa*N;
-    //         if( aIndex < N*N)
-    //     	    As[tx+aa*BLOCK_SIZE] = g_MatA[aIndex];
-    //         else
-    //     	    As[tx+aa*BLOCK_SIZE] = 0;
-    //     }
-
-    //     __syncthreads();
-
-    //     for (int k = 0; (k < BLOCK_SIZE) && (k + b < N); ++k)
-    //     {
-    //         Csub += As[k+tx*BLOCK_SIZE] * g_VecV[k+b];
-    //     }
-    //     __syncthreads();
-    // }
 
     __syncthreads();
 
-    g_VecW[ BLOCK_SIZE * bx + tx] = Csub;
+    if(row < N) {
+        g_VecW[ row ] = Csub;
+    }
 }
 
 
