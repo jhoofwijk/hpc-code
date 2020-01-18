@@ -1,8 +1,8 @@
 
-all: clean run
-
-global:
+global: clean
 	sbatch power_gpu_global.job
+
+all: clean run
 
 run:
 	sbatch power_gpu.job

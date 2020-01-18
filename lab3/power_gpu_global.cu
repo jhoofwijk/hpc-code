@@ -437,6 +437,7 @@ __global__ void FindNormW(float* g_VecW, float* g_tempV, float * g_NormW, int N)
 {
   // shared memory size declared at kernel launch
   unsigned int tid = threadIdx.x;
+  unsigned int offset = blockIdx.x*blockDim.x;
   unsigned int globalid = blockIdx.x*blockDim.x + threadIdx.x;
 
   // For thread ids greater than data space
@@ -454,7 +455,7 @@ __global__ void FindNormW(float* g_VecW, float* g_tempV, float * g_NormW, int N)
      __syncthreads();
   }
    // atomic operations:
-  if (tid == 0) atomicAdd(g_NormW,sdata[0]);
+  if (tid == 0) atomicAdd(g_NormW,g_tempV[offset]);
 }
 
 
