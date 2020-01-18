@@ -361,12 +361,12 @@ __global__ void Av_Product(float* g_MatA, float* g_VecV, float* g_VecW, int N)
 
     float Csub = 0;
     int row = tx + bx * BLOCK_SIZE;
-    int offset = N * row;
+    int row_offset = N * row;
 
     
     if(row < N) {
         for (int j = 0; j < N; j++) {
-            Csub += g_MatA[j + offset];
+            Csub += g_MatA[j + row_offset] * g_VecV[j];
         }
     }
 
