@@ -8,10 +8,12 @@ run:
 	sbatch power_gpu.job
 
 all_sizes:
-	cat power_gpu.cu | sed 's/32/32/'  | tee power_gpu32.cu
-	cat power_gpu.cu | sed 's/32/64/'  | tee power_gpu64.cu
-	cat power_gpu.cu | sed 's/32/16/'  | tee power_gpu16.cu
+	cat power_gpu_global.cu | sed 's/32/16/'  | tee power_gpu16.cu
+	cat power_gpu_global.cu | sed 's/32/32/'  | tee power_gpu32.cu
+	cat power_gpu_global.cu | sed 's/32/64/'  | tee power_gpu64.cu
 	# cat power_gpu.cu | sed 's/32/128/' | tee power_gpu128.cu
+	mv power_gpu.job pwg.job
+	mv power_gpu_global.job power_gpu.job
 
 
 	# GRID 50
