@@ -59,7 +59,6 @@ void CPU_AvProduct()
 		{
 			matIndex = i*N + j;
 			h_VecW[i] += h_MatA[matIndex] * h_VecV[j];
-			
 		}
 	}
 }

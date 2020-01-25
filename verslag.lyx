@@ -688,8 +688,6 @@ It has to be noted that between repeated runs with the same settings, there
  5-10%).
  I therefore conclude that for these cases, the layout (1x4 / 2x2) does
  not make a difference.
- (Note I ran the tests locally and not on the cluster, as I could not reliably
- connect to the cluster).
 \begin_inset Float table
 placement H
 wide false
@@ -1395,7 +1393,8 @@ Sweeps per communication vs time
 
 It appears that communicating every now and then is not a good approach
  for this problem.
- 
+ Instead, communicating the results every half iteration seems to be the
+ best approach.
 \end_layout
 
 \begin_layout Subsection
@@ -4973,9 +4972,10 @@ GPU with shared memory and without memory copy overhead
 
 If we ignore the start-time of the GPU and the time it takes to copy the
  memory between the CPU and GPU, we see that we can actually have a speed-boost
- of about 700 times for the larger cases, which is incredible.
+ of about 700 times for the larger cases, which is amazing.
  I looked up the specs of the GPU and CPU of the DAS-cluster, and from that
- I would expect a speed-up of about 480 times.
+ I would expect a speed-up of about 480 times (single core CPU vs parallel
+ GPU).
  If we look at the computations in global memory, then we see such speedups,
  so I guess the improvements come from a very efficient memory usage and
  the clever vector sum algorithm present in the provided code.
