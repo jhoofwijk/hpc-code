@@ -2766,8 +2766,8 @@ Communication
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Time spend per task for fixed number of processes (time per process) for
- 5000 iterations.
+Time spend per task (in seconds) for fixed number of processes (time per
+ process) for 5000 iterations.
 \end_layout
 
 \end_inset
@@ -3007,8 +3007,8 @@ Communication
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Time spend per task for fixed grid size (per process) until convergence
- (1241 iterations).
+Time spend per task (in seconds) for fixed grid size (per process) until
+ convergence (1241 iterations).
 \end_layout
 
 \end_inset
@@ -4983,12 +4983,14 @@ GPU with shared memory and without memory copy overhead
 If we ignore the start-time of the GPU and the time it takes to copy the
  memory between the CPU and GPU, we see that we can actually have a speed-boost
  of about 700 times for the larger cases, which is amazing.
- I looked up the specs of the GPU and CPU of the DAS-cluster, and from that
- I would expect a speed-up of about 480 times (single core CPU vs parallel
+ I looked up the specs of the GPU and CPU of the DAS4-cluster, and from
+ that I would expect a speed-up of about 480 times (single core CPU vs parallel
  GPU).
- If we look at the computations in global memory, then we see such speedups,
- so I guess the improvements come from a very efficient memory usage and
- the clever vector sum algorithm present in the provided code.
+ If we look at the computations in global memory, then we see such speedups.
+ If we look at the time of the computations in shared memory, it is even
+ faster.
+ I think that is because probably I didn't take all aspects of the CPU/GPU
+ into account, I just compared the flops and ignored memory access times.
 \end_layout
 
 \begin_layout Enumerate
@@ -5005,9 +5007,11 @@ The code of the GPU without shared memory was much much simpler than the
  However, as the computation was only a small fraction of the time the entire
  GPU algorithm took, the total time was marginally slower (if we include
  the memory copy times).
- So, if I ever were to program on a GPU I would use global memory unless
- the computation time is significantly longer than the time to copy the
- vectors back and forth.
+ So, if I ever am going to program on a GPU, I would definitely use global
+ memory.
+ Only exception is of course if the computation time is significantly longer
+ than the time to copy the vectors back and forth.
+ Then using shared memory is worth the effort.
 \end_layout
 
 \end_body
