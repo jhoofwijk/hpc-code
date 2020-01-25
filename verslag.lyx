@@ -352,7 +352,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.38
+0.31
 \end_layout
 
 \end_inset
@@ -361,7 +361,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.39
+0.30
 \end_layout
 
 \end_inset
@@ -384,7 +384,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.07
+1.14
 \end_layout
 
 \end_inset
@@ -393,7 +393,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.04
+1.16
 \end_layout
 
 \end_inset
@@ -416,7 +416,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-3.8
+4.26
 \end_layout
 
 \end_inset
@@ -425,7 +425,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-3.8
+4.36
 \end_layout
 
 \end_inset
@@ -448,7 +448,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-15.8
+16.5
 \end_layout
 
 \end_inset
@@ -457,7 +457,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-15.8
+16.5
 \end_layout
 
 \end_inset
@@ -549,7 +549,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.60
+0.61
 \end_layout
 
 \end_inset
@@ -558,7 +558,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.64
+0.59
 \end_layout
 
 \end_inset
@@ -581,7 +581,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.2
+2.27
 \end_layout
 
 \end_inset
@@ -590,7 +590,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.0
+2.24
 \end_layout
 
 \end_inset
@@ -613,7 +613,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-7.5
+8.22
 \end_layout
 
 \end_inset
@@ -622,7 +622,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-7.6
+8.17
 \end_layout
 
 \end_inset
@@ -645,7 +645,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-31
+32.8
 \end_layout
 
 \end_inset
@@ -654,7 +654,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-29
+32.5
 \end_layout
 
 \end_inset
@@ -701,7 +701,7 @@ status open
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<column alignment="left" valignment="top">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -724,7 +724,7 @@ status open
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -754,16 +754,16 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.15
+0.010
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.000235
+0.000295
 \end_layout
 
 \end_inset
@@ -786,16 +786,16 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.01
+0.045
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.00104
+0.00111
 \end_layout
 
 \end_inset
@@ -818,16 +818,16 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.05
+0.425
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.00375
+0.00389
 \end_layout
 
 \end_inset
@@ -850,16 +850,16 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.6
+0.350
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0142
+0.0162
 \end_layout
 
 \end_inset
@@ -1179,12 +1179,12 @@ Only compute error every 10 iterations
 \end_layout
 
 \begin_layout Standard
-For 500x500, the time for 1664 iteration is 1.88s, and if the error is communicat
-ed only every 10 iterations we need 1.87s.
+For 500x500 on the 2x2 layout, the time for 1664 iteration is 2.85s, and
+ if the error is communicated only every 10 iterations we need 2.83s.
  A tiny improvement, which is not significant if we take the standard deviation
  into account.
- Checking every 100 iterations yields a time of 1.93s.
- Probably because we now do 1700 iterations instead of 1664.
+ Checking every 100 iterations yields a time of 2.88s.
+ Slightly worse, probably because we now do 1700 iterations instead of 1664.
 \end_layout
 
 \begin_layout Subsection
@@ -1195,6 +1195,7 @@ Multiple sweeps between communication
 This is where it gets interesting.
  I use the 2x2 layout.
  As now this seems the best approach.
+ We use the 500x500 grid.
 \begin_inset Float table
 placement H
 wide false
@@ -1255,7 +1256,7 @@ Time needed [s]
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.88
+2.85
 \end_layout
 
 \end_inset
@@ -1287,7 +1288,7 @@ Time needed [s]
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.19
+3.20
 \end_layout
 
 \end_inset
@@ -1319,7 +1320,7 @@ Time needed [s]
 \begin_inset Text
 
 \begin_layout Plain Layout
-4.96
+7.46
 \end_layout
 
 \end_inset
@@ -1351,7 +1352,7 @@ Time needed [s]
 \begin_inset Text
 
 \begin_layout Plain Layout
-5.71
+8.27
 \end_layout
 
 \end_inset
@@ -1404,7 +1405,7 @@ Faster Do_Step
 \begin_layout Standard
 From 2.8 it followed that communicating every half iteration was the best
  approach.
- So we will still use that (which took 1.88s).
+ So we will still use that (which took 2.85s).
  Now we can change the inner loop of Do_Step such that 
 \begin_inset Formula $y$
 \end_inset
@@ -1414,7 +1415,7 @@ From 2.8 it followed that communicating every half iteration was the best
 \end_inset
 
  every step, so we do not need the inner loop anymore.
- We now only need 1.39s which is quite an improvement.
+ We now only need 2.24s which is quite a significant improvement.
 \end_layout
 
 \begin_layout Subsection
@@ -1493,7 +1494,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.0045
+0.005
 \end_layout
 
 \end_inset
@@ -1502,7 +1503,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.005
+0.004
 \end_layout
 
 \end_inset
@@ -1540,7 +1541,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.006
+0.003
 \end_layout
 
 \end_inset
@@ -1549,7 +1550,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.012
+0.010
 \end_layout
 
 \end_inset
@@ -1569,7 +1570,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.026
+0.055
 \end_layout
 
 \end_inset
@@ -1578,7 +1579,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.005
+0.004
 \end_layout
 
 \end_inset
@@ -1587,7 +1588,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.031
+0.038
 \end_layout
 
 \end_inset
@@ -1607,7 +1608,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.15
+0.47
 \end_layout
 
 \end_inset
@@ -1616,7 +1617,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.009
+0.015
 \end_layout
 
 \end_inset
@@ -1625,7 +1626,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.13
+0.33
 \end_layout
 
 \end_inset
@@ -1645,7 +1646,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.3
+4.5
 \end_layout
 
 \end_inset
@@ -1654,7 +1655,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.024
+0.15
 \end_layout
 
 \end_inset
@@ -1663,7 +1664,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-2.3
+1.8
 \end_layout
 
 \end_inset
@@ -1683,7 +1684,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.006
+0.01
 \end_layout
 
 \end_inset
@@ -1701,7 +1702,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.013
+0.01
 \end_layout
 
 \end_inset
@@ -1721,7 +1722,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.04
+0.25
 \end_layout
 
 \end_inset
@@ -1730,7 +1731,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.04
+0.15
 \end_layout
 
 \end_inset
@@ -1739,7 +1740,7 @@ Grid size
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.09
+0.15
 \end_layout
 
 \end_inset
@@ -1811,7 +1812,7 @@ noprefix "false"
  From this table we can conclude that the latency is about 
 \begin_inset Formula 
 \[
-\frac{0.004}{1000}=4\cdot10^{-6}\text{s}=1\mu\text{s}.
+\frac{0.004}{1000}=4\cdot10^{-6}\text{s}=4\mu\text{s}.
 \]
 
 \end_inset
@@ -1829,13 +1830,13 @@ Furthermore the easiest computation can be derived from the 1x2 case with
  This yields:
 \begin_inset Formula 
 \[
-1000\cdot\frac{1600\text{KB}}{2.3\text{s}}\approx700\text{MB/s}.
+1000\cdot\frac{1600\text{KB}}{4.5\text{s}}\approx355\text{MB/s}.
 \]
 
 \end_inset
 
 I have no idea if this is correct, but it is slower than RAM and faster
- than a SSD so I guess it sounds reasonable.
+ than a hard disk, so I guess it sounds reasonable.
  
 \end_layout
 
@@ -1883,7 +1884,8 @@ ions (e.g.
 \begin_inset Quotes erd
 \end_inset
 
- flag) which speeds up the solving with a factor 4.
+ flag) which speeds up the solving with a factor 4!! (e.g.
+ mpicc -O2 program.c)
 \end_layout
 
 \begin_layout Section
@@ -2083,7 +2085,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.023 
+0.030 
 \end_layout
 
 \end_inset
@@ -2092,7 +2094,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.210
+0.290
 \end_layout
 
 \end_inset
@@ -2101,7 +2103,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.753
+2.35
 \end_layout
 
 \end_inset
@@ -2110,7 +2112,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.058
+0.038
 \end_layout
 
 \end_inset
@@ -2119,7 +2121,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.196
+0.280
 \end_layout
 
 \end_inset
@@ -2128,7 +2130,7 @@ Computation
 \begin_inset Text
 
 \begin_layout Plain Layout
-1.735
+2.45
 \end_layout
 
 \end_inset
@@ -2158,7 +2160,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.003
+0.010
 \end_layout
 
 \end_inset
@@ -2167,7 +2169,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.007 
+0.040 
 \end_layout
 
 \end_inset
@@ -2176,7 +2178,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.003
+0.002
 \end_layout
 
 \end_inset
@@ -2194,7 +2196,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.014
+0.025
 \end_layout
 
 \end_inset
@@ -2215,7 +2217,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.006
+0.004
 \end_layout
 
 \end_inset
@@ -2224,7 +2226,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.012
+0.005
 \end_layout
 
 \end_inset
@@ -2233,7 +2235,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.044 
+0.150 
 \end_layout
 
 \end_inset
@@ -2242,7 +2244,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.006
+0.002
 \end_layout
 
 \end_inset
@@ -2251,7 +2253,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.009
+0.002
 \end_layout
 
 \end_inset
@@ -2260,7 +2262,7 @@ Comm.
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.037
+0.160
 \end_layout
 
 \end_inset
@@ -2280,7 +2282,25 @@ Idle
 \begin_inset Text
 
 \begin_layout Plain Layout
--0.000
+0.000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.005
 \end_layout
 
 \end_inset
@@ -2294,29 +2314,11 @@ Idle
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-0.000
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
--0.000
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--0.000
+0.006
 \end_layout
 
 \end_inset
@@ -2325,7 +2327,7 @@ Idle
 \begin_inset Text
 
 \begin_layout Plain Layout
-0.001
+0.002
 \end_layout
 
 \end_inset
@@ -3019,6 +3021,11 @@ Time spend per task for fixed grid size (per process) until convergence
 
 \end_layout
 
+\begin_layout Standard
+So when we have 100 processes (in a 10x10 grid) we will have the same computatio
+n and communication times.
+\end_layout
+
 \begin_layout Subsection
 Adaptive grid
 \end_layout
@@ -3340,6 +3347,9 @@ Time spent per task
 As we can see from the table, the number of required iterations is slightly
  more than if we did not use the adaptive grid, furthermore, the required
  time is very comparable to the equidistant grid.
+ But, I am assuming that the results are more accurate, that is, I assume
+ that the discretization error will be less than if we used a homogeneous
+ grid (I did not actually check this).
 \end_layout
 
 \begin_layout Section
